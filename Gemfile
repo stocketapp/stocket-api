@@ -8,7 +8,7 @@ gem 'pg', '>= 0.18', '< 2.0'
 gem 'puma', '~> 4.1'
 gem 'graphql'
 gem 'firebase_id_token'
-gem 'redis', '~> 4.0'
+gem 'redis'
 gem 'whenever', require: false
 
 # Reduces boot times through caching; required in config/boot.rb

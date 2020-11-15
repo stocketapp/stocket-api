@@ -179,7 +179,7 @@ DEPENDENCIES
   pg (>= 0.18, < 2.0)
   puma (~> 4.1)
   rails (~> 6.0.3, >= 6.0.3.4)
-  redis (~> 4.0)
+  redis
   spring
   spring-watcher-listen (~> 2.0.0)
   whenever
