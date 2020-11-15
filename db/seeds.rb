@@ -6,4 +6,4 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-trade1 = Trades.create(id: 1, action: 'BUY')
+trade1 = Trade.create(id: 1, action: 'BUY')
