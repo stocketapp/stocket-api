@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  cash: 1
+  portfolio_change_pct: 9.99
+  portfolio_change: 9.99
+  portfolio_value: MyString
+  apns_token: MyString
+
+two:
+  cash: 1
+  portfolio_change_pct: 9.99
+  portfolio_change: 9.99
+  portfolio_value: MyString
+  apns_token: MyString
