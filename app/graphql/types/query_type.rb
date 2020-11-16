@@ -1,9 +1,9 @@
 module Types
   class QueryType < Types::BaseObject
-    field :all_trades, [Types::TradesType], null: false
+    field :get_trade, [Types::TradesType], null: false
 
-    def all_trades
-      Trades.all
+    def get_trade
+      Trade.get_trades(context[:current_user])
     end
   end
 end
