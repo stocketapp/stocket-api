@@ -30,10 +30,11 @@ class GraphqlController < ApplicationController
     end
 
     uid = result['sub']
-    user = User.find_by uid: uid
 
-    if !user
-      raise "User not found."
+    if params[:operationName] != 'CreateUser'
+      user = User.find_by uid: uid
+    else
+      user = {uid: uid}
     end
 
     user

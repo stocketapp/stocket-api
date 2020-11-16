@@ -1,5 +1,7 @@
 class User < ApplicationRecord
-  validates :name, presence: true
-  validates :email, presence: true
-  validates :uid, presence: true
+  has_one :user_info
+
+  def user(user)
+    User.find_by uid: user.uid
+  end
 end
