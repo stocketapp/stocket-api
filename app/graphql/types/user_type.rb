@@ -11,6 +11,10 @@ module Types
     field :uid, String, null: false
     field :email, String, null: false
     field :displayName, String, null: false
-    field :userInfo, [UserInfoType], null: false
+    field :user_info, Types::UserInfoType, null: false
+
+    def user_info      
+      UserInfo.find_by! id: context[:current_user]['id']
+    end
   end
 end
