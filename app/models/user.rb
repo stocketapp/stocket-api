@@ -3,8 +3,4 @@ class User < ApplicationRecord
 
   validates :email, presence: true, uniqueness: true
   validates :uid, presence: true, uniqueness: true
-
-  def user(user)
-    User.find_by uid: user.uid
-  end
 end

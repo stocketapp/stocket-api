@@ -7,10 +7,10 @@ module Types
   end
 
   class UserType < Types::BaseObject
-    field :id, ID, null: true
+    field :id, ID, null: false
     field :uid, String, null: false
-    field :email, String, null: true
-    field :displayName, String, null: true
-    field :userInfo, [UserInfoType], null: true
+    field :email, String, null: false
+    field :displayName, String, null: false
+    field :userInfo, [UserInfoType], null: false
   end
 end
