@@ -9,35 +9,34 @@ class GraphqlController < ApplicationController
     query = params[:query]
     operation_name = params[:operationName]
     token = request.env['HTTP_AUTHORIZATION']
-    current_user = set_current_user(token)
+    current_user = get_current_user(token)
     context = {
       current_user: current_user,
       token: token
     }
     result = StocketApiSchema.execute(query, variables: variables, context: context, operation_name: operation_name)
     render json: result
-    rescue => e
-      raise e unless Rails.env.development?
-      handle_error_in_development e
+  rescue StandardError => e
+    raise e unless Rails.env.development?
+
+    handle_error_in_development e
   end
 
   private
 
-  def set_current_user(token)
+  def get_current_user(token)
     result = FirebaseIdToken::Signature.verify(token)
-    if !result
-      raise GraphQL::ExecutionError.new('The token used to authorize this request is invalid.', extensions: { "code" => "INVALID_TOKEN" })
+    unless result
+      raise GraphQL::ExecutionError.new('The token used to authorize this request is invalid.', extensions: { 'code' => 'INVALID_TOKEN' })
     end
 
     uid = result['sub']
 
     if params[:operationName] != 'CreateUser'
-      user = User.find_by uid: uid
+      User.find_by uid: uid
     else
-      user = {uid: uid}
+      { uid: uid }
     end
-
-    user
   end
 
   # Handle variables in form data, JSON body, or a blank value
