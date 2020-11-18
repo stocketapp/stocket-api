@@ -2,27 +2,43 @@ module Mutations
   class CreateUser < BaseMutation
     argument :user, Types::CurrentUserInput, required: true
 
-    field :success, String, null: false
+    field :success, Boolean, null: false
     field :message, String, null: false
 
     def resolve(user: nil)
-      created_user = User.create!(
+      return { success: false, message: 'User already exists' } if user_exists?(user)
+
+      created_user = create_user(user)
+      user_info = create_user_info(created_user)
+
+      return { success: false, message: 'Could not create user' } unless user && user_info
+
+      { success: true, message: 'User created' }
+    end
+
+    private
+
+    def create_user(user)
+      User.create!(
         uid: user&.[](:uid),
         email: user&.[](:email),
         displayName: user&.[](:display_name)
       )
-      puts created_user
-      userInfo = UserInfo.create!(
-        cash: 20000,
+    end
+
+    def create_user_info(created_user)
+      UserInfo.create!(
+        cash: 20_000,
         portfolio_change: 0.0,
         portfolio_change_pct: 0.0,
         portfolio_value: '$0.00',
         user_id: created_user.id
       )
+    end
 
-      return { success: false, messsage: 'Could not create user' } unless user && userInfo
-
-      { success: true, messsage: 'User created' }
+    def user_exists?(user)
+      res = User.where uid: user&.[](:uid)
+      res.exists?
     end
   end
 end
