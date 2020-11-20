@@ -4,7 +4,9 @@ FirebaseIdToken.configure do |config|
   port = is_dev ? 6379 : ENV['REDIS_CACHE_PORT']
   password = ENV['REDIS_CACHE_PASSWORD']
   config.project_ids = ['stocket-dev', '']
-  redis_dev = Redis.new(host: host, port: port, db: 0)
-  redis_prod = Redis.new(host: host, port: port, db: 0, password: password)
-  config.redis = is_dev ? redois_dev : redis_prod
+  config.redis = if is_dev
+                   Redis.new(host: host, port: port, db: 0, password: password)
+                 else
+                   Redis.new(host: host, port: port, db: 0)
+                 end
 end
