@@ -18,9 +18,6 @@ module Mutations
       return unless user
       
       current_user = { user: user, token: token }
-      redis = Redis.new(host: 'localhost', port: 6379, db: 0)
-      redis.set('@current_user', current_user)
-      redis.set('@session_token', token)
 
       { user: user, token: token }
     end
