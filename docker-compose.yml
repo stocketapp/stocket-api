@@ -9,6 +9,10 @@ services:
   web:
     build: .
     command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    environment:
+      REDIS_CACHE_HOST: 'redis-11326.c240.us-east-1-3.ec2.cloud.redislabs.com'
+      REDIS_CACHE_PORT: 11326
+      REDIS_CACHE_PASSWORD: 'J5Kn6pErUyhfUu3m1aggMOZW6uAeTzDg'
     volumes:
       - .:/stocket-api
     ports:

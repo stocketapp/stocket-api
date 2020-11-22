@@ -1,6 +1,8 @@
 FirebaseIdToken.configure do |config|
   is_dev = Rails.env.development?
-  password = is_dev ? 'password' : ENV['REDIS_CACHE_PASSWORD']
+  password = ENV['REDIS_CACHE_PASSWORD']
+  host = ENV['REDIS_CACHE_HOST']
+  port = ENV['REDIS_CACHE_PORT']
   config.project_ids = ['stocket-dev', '']
-  config.redis = Redis.new(host: ENV['REDIS_CACHE_HOST'], port: 15680, db: 0, password: password)
+  config.redis = Redis.new(host: host, port: port, db: 0, password: password)
 end
