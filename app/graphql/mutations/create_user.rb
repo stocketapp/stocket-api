@@ -4,13 +4,13 @@ module Mutations
 
     field :success, Boolean, null: false
     field :message, String, null: false
-    field :user, Types::UserType, null: false
+    field :user, Types::UserType, null: true
 
     def resolve(user: nil)
       return { success: false, message: 'User already exists' } if user_exists?(user)
 
       created_user = create_user(user)
-      user_info = create_user_info(created_user)
+      user_info = create_user_info(created_user&.[](:id))
 
       return { success: false, message: 'Could not create user' } unless user && user_info
 
@@ -27,13 +27,13 @@ module Mutations
       )
     end
 
-    def create_user_info(created_user)
+    def create_user_info(id)
       UserInfo.create!(
         cash: 20_000,
         portfolio_change: 0.0,
         portfolio_change_pct: 0.0,
         portfolio_value: '$0.00',
-        user_id: created_user.id
+        user_id: id
       )
     end
 
