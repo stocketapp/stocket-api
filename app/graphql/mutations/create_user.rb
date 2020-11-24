@@ -4,6 +4,7 @@ module Mutations
 
     field :success, Boolean, null: false
     field :message, String, null: false
+    field :user, Types::UserType, null: false
 
     def resolve(user: nil)
       return { success: false, message: 'User already exists' } if user_exists?(user)
@@ -13,7 +14,7 @@ module Mutations
 
       return { success: false, message: 'Could not create user' } unless user && user_info
 
-      { success: true, message: 'User created' }
+      { success: true, message: 'User created', user: created_user }
     end
 
     private
