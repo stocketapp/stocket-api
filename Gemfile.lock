@@ -198,6 +198,7 @@ DEPENDENCIES
   airbrake
   bootsnap (>= 1.4.2)
   byebug
+  faraday
   firebase_id_token
   graphiql-rails
   graphql

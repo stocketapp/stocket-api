@@ -1,5 +1,7 @@
+logger_instance = Logger.new(STDOUT)
+
 IEX::Api.configure do |config|
-  config.publishable_token = ENV['IEX_CLOUD_TOKEN'] # defaults to ENV['IEX_API_PUBLISHABLE_TOKEN']
-  config.secret_token = ENV['IEX_CLOUD_SECRET'] # defaults to ENV['IEX_API_SECRET_TOKEN']
-  config.endpoint = ENV['IEX_CLOUD_URL'] # use 'https://sandbox.iexapis.com/v1' for Sandbox
+  # config.logger.instance = logger_instance
+  # config.logger.options = { bodies: true }
+  # config.logger.proc = proc { |logger| logger.filter(/T?[sp]k_\w+/i, '[REMOVED]') }
 end

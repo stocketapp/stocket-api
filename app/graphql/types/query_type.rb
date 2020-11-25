@@ -4,7 +4,7 @@ module Types
   class QueryType < Types::BaseObject
     field :get_user, Types::UserType, null: false, resolver_method: :fetch_user
     field :get_user_info, Types::UserInfoType, null: false, resolver_method: :fetch_user_info
-    field :get_watchlist, [Types::WatchlistType], null: false, resolver_method: :fetch_watchlist
+    field :get_watchlist, [Types::IexQuoteType], null: false, resolver_method: :fetch_watchlist
 
     def fetch_user
       User.find_by! uid: context[:current_user][:uid]
@@ -15,7 +15,7 @@ module Types
     end
 
     def fetch_watchlist
-      Watchlist.where(user_id: context[:current_user][:id])
+      Watchlist.watchlist_prices(context[:current_user][:id])
     end
   end
 end
