@@ -1,6 +1,5 @@
 class Watchlist < ApplicationRecord
   belongs_to :user
-
   validates :symbol, presence: true, uniqueness: true
 
   def self.watchlist_prices(user_id)

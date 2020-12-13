@@ -4,16 +4,16 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '2.7.2'
 
 gem 'airbrake'
+gem 'faraday'
 gem 'firebase_id_token'
 gem 'graphql'
+gem 'iex-ruby-client'
 gem 'pg', '>= 0.18', '< 2.0'
 gem 'puma', '~> 4.1'
 gem 'rack-cors'
 gem 'rails', '~> 6.0.3', '>= 6.0.3.4'
 gem 'redis'
 gem 'whenever', require: false
-gem 'iex-ruby-client'
-gem 'faraday'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false
