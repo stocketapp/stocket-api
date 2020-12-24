@@ -15,6 +15,8 @@ EXPOSE 3000
 ENV RAILS_ENV production
 ENV RAILS_SERVE_STATIC_FILES true
 ENV RAILS_LOG_TO_STDOUT true
+ENV RAILS_MASTER_KEY 691324b04739f34eb6b81c35841acb8e
+ENV EDITOR vim
 
 # Start the main process.
 CMD ["rails", "server", "-b", "0.0.0.0"]
