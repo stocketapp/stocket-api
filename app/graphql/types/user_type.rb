@@ -13,8 +13,8 @@ module Types
     field :displayName, String, null: false
     field :user_info, Types::UserInfoType, null: false
 
-    def user_info      
-      UserInfo.find_by! id: context[:current_user]['id']
+    def user_info
+      UserInfo.find_by! user_id: context[:current_user][:uid]
     end
   end
 end

@@ -10,25 +10,36 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_201_116_213_625) do
+ActiveRecord::Schema.define(version: 2020_11_23_110048) do
+
   # These are extensions that must be enabled in order to support this database
-  enable_extension 'plpgsql'
+  enable_extension "plpgsql"
 
-  create_table 'user_infos', force: :cascade do |t|
-    t.bigint 'user_id'
-    t.integer 'cash'
-    t.decimal 'portfolio_change_pct', precision: 10, scale: 2
-    t.decimal 'portfolio_change', precision: 10, scale: 2
-    t.string 'portfolio_value'
-    t.string 'apns_token'
-    t.datetime 'created_at', precision: 6, null: false
-    t.datetime 'updated_at', precision: 6, null: false
-    t.index ['user_id'], name: 'index_user_infos_on_user_id'
+  create_table "user_infos", force: :cascade do |t|
+    t.bigint "user_id"
+    t.integer "cash"
+    t.decimal "portfolio_change_pct", precision: 10, scale: 2
+    t.decimal "portfolio_change", precision: 10, scale: 2
+    t.string "portfolio_value"
+    t.string "apns_token"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_user_infos_on_user_id"
   end
 
-  create_table 'users', force: :cascade do |t|
-    t.string 'uid'
-    t.string 'email'
-    t.string 'displayName'
+  create_table "users", force: :cascade do |t|
+    t.string "uid"
+    t.string "email"
+    t.string "displayName"
   end
+
+  create_table "watchlists", force: :cascade do |t|
+    t.string "symbol"
+    t.string "name"
+    t.bigint "user_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_watchlists_on_user_id"
+  end
+
 end

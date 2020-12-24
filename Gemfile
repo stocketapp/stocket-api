@@ -4,8 +4,10 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '2.7.2'
 
 gem 'airbrake'
+gem 'faraday'
 gem 'firebase_id_token'
 gem 'graphql'
+gem 'iex-ruby-client'
 gem 'pg', '>= 0.18', '< 2.0'
 gem 'puma', '~> 4.1'
 gem 'rack-cors'
