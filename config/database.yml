@@ -88,4 +88,4 @@ production:
   <<: *default
   database: stocket_api_production
   username: postgres
-  # password: <%= ENV['STOCKET_API_DATABASE_PASSWORD'] %>
+  password: password
