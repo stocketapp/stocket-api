@@ -8,8 +8,12 @@ class Watchlist < ApplicationRecord
     self.fetch_iex_quote(symbols).map { |el| el[1]['quote'] }
   end
 
-  def self.remove_from_watchlist(symbol, uid)
+  def self.remove_item(symbol, uid)
     item = Watchlist.find_by user_id: uid, symbol: symbol
     item.destroy
+  end
+
+  def get_quote
+    Watchlist.fetch_iex_quote(self.symbol)[self.symbol]['quote']
   end
 end
