@@ -1,5 +1,5 @@
 module Mutations
-  class CreateWatchlist < BaseMutation
+  class AddToWatchlist < BaseMutation
     argument :symbol, String, required: true
 
     type Types::IexQuoteType
