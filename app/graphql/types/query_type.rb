@@ -5,6 +5,9 @@ module Types
     field :get_user, Types::UserType, null: false, resolver_method: :fetch_user
     field :get_user_info, Types::UserInfoType, null: false, resolver_method: :fetch_user_info
     field :get_watchlist, [Types::IexQuoteType], null: false, resolver_method: :fetch_watchlist
+    field :get_quote, Types::IexQuoteType, null: false do
+      argument :symbol, String, required: true
+    end
 
     def fetch_user
       User.find_by! uid: context[:current_user][:uid]
@@ -16,6 +19,10 @@ module Types
 
     def fetch_watchlist
       Watchlist.watchlist_prices(context[:current_user][:id])
+    end
+
+    def get_quote(symbol:)
+      ApplicationRecord.fetch_iex_quote(symbol)
     end
   end
 end
