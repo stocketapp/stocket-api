@@ -5,7 +5,7 @@ class Watchlist < ApplicationRecord
   def self.watchlist_prices(user_id)
     list = Watchlist.where user_id: user_id
     symbols = list.map { |el| el.symbol }.join(',')
-    self.fetch_iex_quote(symbols).map { |el| el[1]['quote'] }
+    self.fetch_iex_batch_quote(symbols).map { |el| el[1]['quote'] }
   end
 
   def self.remove_item(symbol, uid)
@@ -14,6 +14,6 @@ class Watchlist < ApplicationRecord
   end
 
   def get_quote
-    Watchlist.fetch_iex_quote(self.symbol)[self.symbol]['quote']
+    Watchlist.fetch_iex_batch_quote(self.symbol)[self.symbol]['quote']
   end
 end

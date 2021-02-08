@@ -7,12 +7,24 @@ class ApplicationRecord < ActiveRecord::Base
     endpoint: ENV['IEX_CLOUD_URL'],
   )
 
-  def self.fetch_iex_quote(symbols)
+  def self.fetch_iex_batch_quote(symbols)
     @@client.get(
       'stock/market/batch',
       symbols: symbols,
       types: 'quote',
       token: ENV['IEX_CLOUD_SECRET']
     )
+  end
+
+  def self.fetch_iex_stock(symbols)
+    @@client.get(
+      'stock/market/batch',
+      symbols: symbols,
+      types: 'quote,news,chart',
+    )
+  end
+  
+  def self.fetch_iex_quote(symbol)
+    @@client.quote(symbol)
   end
 end
