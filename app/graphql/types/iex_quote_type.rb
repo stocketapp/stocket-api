@@ -2,6 +2,7 @@ module Types
   class IexQuoteType < Types::BaseObject
     field :symbol, String, null: true # stock ticker
     field :company_name, String, null: true # company name
+    field :logo, String, null: true
     # field :primary_exchange, null: true # primary listings exchange
     # field :sector # sector of the stock
     # field :calculation_price, null: true # source of the latest price - tops, sip, previousclose or close

@@ -25,6 +25,8 @@ class ApplicationRecord < ActiveRecord::Base
   end
   
   def self.fetch_iex_quote(symbol)
-    @@client.quote(symbol)
+    quote = @@client.quote(symbol)
+    logo = {"logo" => "https://storage.googleapis.com/iex/api/logos/#{symbol}.png"}
+    logo.merge(quote)
   end
 end
