@@ -29,4 +29,12 @@ class ApplicationRecord < ActiveRecord::Base
     logo = {"logo" => "https://storage.googleapis.com/iex/api/logos/#{symbol}.png"}
     logo.merge(quote)
   end
+
+  def self.fetch_iex_chart(symbol)
+    @@client.chart(symbol)
+  end
+
+  def self.fetch_iex_news(symbol)
+    @@client.news(symbol)
+  end
 end
