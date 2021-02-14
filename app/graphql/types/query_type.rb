@@ -4,7 +4,7 @@ module Types
   class QueryType < Types::BaseObject
     field :get_user, Types::UserType, null: false, resolver_method: :fetch_user
     field :get_user_info, Types::UserInfoType, null: false, resolver_method: :fetch_user_info
-    field :get_watchlist, [Types::IexQuoteType], null: false, resolver_method: :fetch_watchlist
+    field :watchlist, Types::WatchlistQuotesType, null: false, resolver_method: :fetch_watchlist
     field :get_quote, Types::IexQuoteType, null: false do
       argument :symbol, String, required: true
     end
@@ -22,7 +22,7 @@ module Types
     end
 
     def get_quote(symbol:)
-      ApplicationRecord.fetch_iex_quote(symbol)
+      Watchlist.fetch_iex_quote(symbol)
     end
   end
 end
