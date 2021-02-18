@@ -14,38 +14,49 @@ on:
     branches: [main]
 
 jobs:
-  test:
+  verify:
+    name: Build
     runs-on: ubuntu-latest
     strategy:
       matrix:
         ruby-version: ['2.7.2']
+
     services:
       postgres:
-        image: postgres:11
+        image: postgres:13
         env:
-          POSTGRES_DB: stocket_api_test
           POSTGRES_USER: stocketDB
+          POSTGRES_DB: stocket_api_test
         ports: ['5432:5432']
-
     steps:
       - uses: actions/checkout@v2
       - name: Set up Ruby
-        # To automatically get bug fixes and new Ruby versions for ruby/setup-ruby,
-        # change this to (see https://github.com/ruby/setup-ruby#versioning):
-        # uses: ruby/setup-ruby@v1
         uses: ruby/setup-ruby@473e4d8fe5dd94ee328fdfca9f8c9c7afc9dae5e
         with:
           ruby-version: ${{ matrix.ruby-version }}
           bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+      - name: Set up Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 10.13.0
+      - name: Install dependencies
+        run: |
+          sudo apt-get -yqq install libpq-dev build-essential libcurl4-openssl-dev
+          gem install bundler
+          bundle install --jobs 4 --retry 3
+          yarn install
       - name: Setup test database
         env:
           RAILS_ENV: test
+          PGHOST: localhost
           POSTGRES_DB: stocket_api_test
           POSTGRES_USER: stocketDB
-        run: rake db:create db:migrate
+        run: bundle exec rake db:create db:migrate
       - name: Run tests
         env:
+          PGHOST: localhost
+          POSTGRES_DB: rails_github_actions_test
+          POSTGRES_USER: rails_github_actions
+          PGPORT: ${{ job.services.postgres.ports[5432] }}
           RAILS_ENV: test
-          POSTGRES_DB: stocket_api_test
-          POSTGRES_USER: stocketDB
         run: bundle exec rake
