@@ -19,6 +19,12 @@ jobs:
     strategy:
       matrix:
         ruby-version: ['2.7.2']
+    services:
+      postgres:
+        image: postgres:13
+        env:
+          POSTGRES_DB: stocket_api_test
+        ports: ['5432:5432']
 
     steps:
       - uses: actions/checkout@v2
@@ -30,5 +36,11 @@ jobs:
         with:
           ruby-version: ${{ matrix.ruby-version }}
           bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+      - name: Setup test database
+        env:
+          RAILS_ENV: test
+          PGHOST: localhost
+          PGUSER: stocket
+        run: bin/rails db:setup
       - name: Run tests
         run: bundle exec rake
