@@ -22,7 +22,6 @@ jobs:
     services:
       postgres:
         image: postgres:13
-        env:
         ports: ['5432:5432']
 
     steps:
