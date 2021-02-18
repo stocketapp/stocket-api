@@ -23,10 +23,11 @@ jobs:
 
     services:
       postgres:
-        image: postgres:11
+        image: postgres:13
         env:
-          POSTGRES_USER: stocketDB
           POSTGRES_DB: stocket_api_test
+          POSTGRES_USER: stocketDB
+          POSTGRES_PASSWORD: stocket
         ports: ['5432:5432']
         options: >-
           --health-cmd pg_isready
@@ -40,28 +41,13 @@ jobs:
         with:
           ruby-version: ${{ matrix.ruby-version }}
           bundler-cache: true # runs 'bundle install' and caches installed gems automatically
-      - name: Set up Node
-        uses: actions/setup-node@v1
-        with:
-          node-version: 10.13.0
-      - name: Install dependencies
-        run: |
-          sudo apt-get -yqq install libpq-dev build-essential libcurl4-openssl-dev
-          gem install bundler
-          bundle install --jobs 4 --retry 3
-          yarn install
       - name: Setup test database
         env:
           RAILS_ENV: test
           PGHOST: localhost
           POSTGRES_DB: stocket_api_test
           POSTGRES_USER: stocketDB
+          POSTGRES_PASSWORD: stocket
         run: bundle exec rake db:create db:migrate
       - name: Run tests
-        env:
-          PGHOST: localhost
-          POSTGRES_DB: rails_github_actions_test
-          POSTGRES_USER: rails_github_actions
-          PGPORT: ${{ job.services.postgres.ports[5432] }}
-          RAILS_ENV: test
         run: bundle exec rake
