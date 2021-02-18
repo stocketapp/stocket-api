@@ -43,7 +43,7 @@ jobs:
           POSTGRES_DB: stocket_api_test
           POSTGRES_USER: stocketDB
         run: |
-          cp config/database.ci.yml config/database.yml
+          cp config/database.yml
           rake db:create db:migrate
       - name: Run tests
         env:
