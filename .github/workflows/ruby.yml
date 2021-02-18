@@ -1,0 +1,52 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+# This workflow will download a prebuilt Ruby version, install dependencies and run tests with Rake
+# For more information see: https://github.com/marketplace/actions/setup-ruby-jruby-and-truffleruby
+
+name: Ruby
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  verify:
+    name: Build
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        ruby-version: ['2.7.2']
+
+    services:
+      postgres:
+        image: postgres:13
+        env:
+          POSTGRES_DB: stocket_api_test
+          POSTGRES_USER: stocketDB
+          POSTGRES_PASSWORD: stocket
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@473e4d8fe5dd94ee328fdfca9f8c9c7afc9dae5e
+        with:
+          ruby-version: ${{ matrix.ruby-version }}
+          bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+      - name: Setup test database
+        env:
+          RAILS_ENV: test
+          POSTGRES_USER: stocketDB
+          POSTGRES_PASSWORD: stocket
+          POSTGRES_DB: stocket_api_test
+        run: bundle exec rake db:create db:migrate
+      - name: Run tests
+        run: bundle exec rake

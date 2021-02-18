@@ -30,9 +30,6 @@ module Mutations
     def create_user_info(id)
       UserInfo.create!(
         cash: 20_000,
-        portfolio_change: 0.0,
-        portfolio_change_pct: 0.0,
-        portfolio_value: '$0.00',
         user_id: id
       )
     end
