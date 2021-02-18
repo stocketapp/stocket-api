@@ -21,8 +21,9 @@ jobs:
         ruby-version: ['2.7.2']
     services:
       postgres:
-        image: postgres:13
-        ports: ['5432:5432']
+        image: postgres:11
+        ports:
+          - 5432:5432
 
     steps:
       - uses: actions/checkout@v2
