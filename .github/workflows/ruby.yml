@@ -23,7 +23,7 @@ jobs:
 
     services:
       postgres:
-        image: postgres:13
+        image: postgres:11
         env:
           POSTGRES_USER: stocketDB
           POSTGRES_DB: stocket_api_test
