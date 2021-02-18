@@ -2,8 +2,6 @@
 
 one:
   symbol: MyString
-  name: MyString
 
 two:
   symbol: MyString
-  name: MyString
