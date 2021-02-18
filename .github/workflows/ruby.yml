@@ -23,7 +23,6 @@ jobs:
       postgres:
         image: postgres:13
         env:
-          POSTGRES_DB: stocket_api_test
         ports: ['5432:5432']
 
     steps:
@@ -40,7 +39,6 @@ jobs:
         env:
           RAILS_ENV: test
           PGHOST: localhost
-          PGUSER: stocket
         run: bin/rails db:setup
       - name: Run tests
         run: bundle exec rake
