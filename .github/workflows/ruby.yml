@@ -34,6 +34,8 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
+  test:
+    name: Test
     steps:
       - uses: actions/checkout@v2
       - name: Set up Ruby
@@ -48,9 +50,5 @@ jobs:
           POSTGRES_PASSWORD: stocket
           POSTGRES_DB: stocket_api_test
         run: bundle exec rake db:create db:migrate
-  test:
-    name: Test
-    steps:
       - name: Run tests
-      run: bundle exec rake
-
+        run: bundle exec rake
