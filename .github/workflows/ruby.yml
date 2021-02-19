@@ -57,6 +57,20 @@ jobs:
       matrix:
         ruby-version: ['2.7.2']
 
+    services:
+      postgres:
+        image: postgres:13
+        env:
+          POSTGRES_DB: stocket_api_test
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: password
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
     steps:
       - uses: actions/checkout@v2
       - name: Set up Ruby
