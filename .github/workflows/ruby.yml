@@ -17,6 +17,9 @@ jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        ruby-version: ['2.7.2', '3.0']
 
     services:
       postgres:
@@ -53,6 +56,13 @@ jobs:
     strategy:
       matrix:
         ruby-version: ['2.7.2', '3.0']
+
     steps:
+    - uses: actions/checkout@v2
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@473e4d8fe5dd94ee328fdfca9f8c9c7afc9dae5e
+        with:
+          ruby-version: ${{ matrix.ruby-version }}
+          bundler-cache: true # runs 'bundle install' and caches installed gems automatically
       - name: Run tests
         run: bundle exec rake
