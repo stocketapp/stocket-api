@@ -6,11 +6,12 @@ module Mutations
     argument :price, Float, "Price per stock", required: true
     argument :quantity, Int, "Quantity of stocks user is buying", required: true
     argument :order_type, String, "Order type can be either 'BUY' or 'SELL'", required: true
+    argument :uid, Int, "[OPTIONAL] Pass the user ID", required: false
 
     type Types::TradeType
 
-    def resolve(symbol:, price:, quantity:, order_type:)
-      Trade.create!(
+    def resolve(symbol:, price:, quantity:, order_type:, uid: nil)
+      Trade.create(
         user_id: context[:current_user][:id],
         symbol: symbol,
         price: price,

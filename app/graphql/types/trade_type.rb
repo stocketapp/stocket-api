@@ -1,6 +1,6 @@
 module Types
   class TradeType < Types::BaseObject
-    field :id, ID, "Order ID", null: false
+    field :id, ID, "Order ID", null: true
     field :symbol, String, "Stock symbol", null: false
     field :price, Float, "Price per stock", null: false
     field :quantity, Int, "Quantity of stocks purchased", null: false
