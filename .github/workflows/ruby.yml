@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        ruby-version: ['2.7.2', '3.0']
+        ruby-version: ['2.7.2']
 
     services:
       postgres:
@@ -55,7 +55,7 @@ jobs:
     needs: build
     strategy:
       matrix:
-        ruby-version: ['2.7.2', '3.0']
+        ruby-version: ['2.7.2']
 
     steps:
       - uses: actions/checkout@v2
@@ -78,7 +78,7 @@ jobs:
     needs: setup
     strategy:
       matrix:
-        ruby-version: ['2.7.2', '3.0']
+        ruby-version: ['2.7.2']
 
     steps:
       - uses: actions/checkout@v2
