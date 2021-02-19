@@ -20,14 +20,7 @@ jobs:
     strategy:
       matrix:
         ruby-version: ['2.7.2']
-  setup_ruby:
-    name: Set up Ruby
-    uses: actions/checkout@v2
-    steps:
-      - uses: ruby/setup-ruby@473e4d8fe5dd94ee328fdfca9f8c9c7afc9dae5e
-      - with:
-        ruby-version: ${{ matrix.ruby-version }}
-        bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+
   setup_db:
     name: Setup PosgreSQL
     services:
@@ -43,7 +36,16 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
+  setup_ruby:
+    name: Set up Ruby
+    uses: actions/checkout@v2
     steps:
+      - uses: actions/checkout@v2
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@473e4d8fe5dd94ee328fdfca9f8c9c7afc9dae5e
+        with:
+          ruby-version: ${{ matrix.ruby-version }}
+          bundler-cache: true # runs 'bundle install' and caches installed gems automatically
       - name: Setup test database
         env:
           RAILS_ENV: test
@@ -52,6 +54,6 @@ jobs:
           POSTGRES_DB: stocket_api_test
         run: bundle exec rake db:create db:migrate
 
-    test:
-      name: Test
-      run: bundle exec rake
+  test:
+    name: Test
+    run: bundle exec rake
