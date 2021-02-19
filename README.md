@@ -1,4 +1,4 @@
-# README
+# Stocket API  |  [![Ruby](https://github.com/corasan/stocket-api/actions/workflows/ruby.yml/badge.svg?branch=main)](https://github.com/corasan/stocket-api/actions/workflows/ruby.yml)
 
 This README would normally document whatever steps are necessary to get the
 application up and running.
