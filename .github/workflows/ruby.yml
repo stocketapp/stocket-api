@@ -21,8 +21,6 @@ jobs:
       matrix:
         ruby-version: ['2.7.2']
 
-  setup_db:
-    name: Setup PosgreSQL
     services:
       postgres:
         image: postgres:13
@@ -36,9 +34,6 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
-  setup_ruby:
-    name: Set up Ruby
-    uses: actions/checkout@v2
     steps:
       - uses: actions/checkout@v2
       - name: Set up Ruby
@@ -49,11 +44,11 @@ jobs:
       - name: Setup test database
         env:
           RAILS_ENV: test
-          POSTGRES_USER: stocketDB
-          POSTGRES_PASSWORD: stocket
-          POSTGRES_DB: stocket_api_test
         run: bundle exec rake db:create db:migrate
 
   test:
     name: Test
+    steps:
+      - name: start test
+      - uses: actions/checkout@v2
     run: bundle exec rake
