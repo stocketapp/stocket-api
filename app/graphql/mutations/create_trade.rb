@@ -1,10 +1,27 @@
 module Mutations
   class CreateTrade < BaseMutation
-    argument :symbol, String, required: true
-    argument :price, Decimal, required: true
-    argument :quantity, Int, required: true
-    argument :order_type, String, required: true
+    argument :symbol, String, "Stock symbol", required: true
+    argument :price, Float, "Price per stock", required: true
+    argument :quantity, Int, "Quantity of stocks user is buying", required: true
+    argument :order_type, String, "Order type can be either 'BUY' or 'SELL'", required: true
 
-    Types::TradeType, null: false
+    type Types::TradeType
+
+    def resolve(symbol:, price:, quantity:, order_type:)
+      Trade.create!(
+        user_id: context[:current_user][:id],
+        symbol: symbol,
+        price: price,
+        quantity: quantity,
+        order_type: order_type,
+        total: calc_total(price, quantity),
+        order_date: DateTime.now
+      )
+    end
+
+    private
+    def calc_total(price, quantity)
+      price * quantity
+    end
   end
 end

@@ -1,11 +1,11 @@
 module Types
   class TradeType < Types::BaseObject
-    field :id, ID, null: false
-    field :symbol, String, null: false
-    field :price, Decimal, null: false
-    field :quantity, Int, null: false
-    field :total, Int, null: false
-    field :order_date, Date, null: false
-    field :order_type, String, null: false
+    field :id, ID, "Order ID", null: false
+    field :symbol, String, "Stock symbol", null: false
+    field :price, Float, "Price per stock", null: false
+    field :quantity, Int, "Quantity of stocks purchased", null: false
+    field :total, Float, "Order total", null: false
+    field :order_date, GraphQL::Types::ISO8601DateTime, "Date the order was placed", null: false
+    field :order_type, String, "Order type can be either 'BUY' or 'SELL'", null: false
   end
 end
