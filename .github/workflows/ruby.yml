@@ -17,10 +17,7 @@ jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        ruby-version: ['2.7.2', '3.0']
-
+    
     services:
       postgres:
         image: postgres:13
@@ -35,6 +32,24 @@ jobs:
           --health-timeout 5s
           --health-retries 5
     steps:
+      env:
+        RAILS_ENV: test
+        POSTGRES_USER: postgres
+        POSTGRES_PASSWORD: password
+        POSTGRES_DB: stocket_api_test
+      - uses: actions/checkout@v2
+      - name: Set up PostgreSQL
+      run: bundle exec rake db:create
+
+  setup:
+    name: Setup
+    runs-on: ubuntu-latest
+    needs: build
+    strategy:
+      matrix:
+        ruby-version: ['2.7.2', '3.0']
+    
+    steps:
       - uses: actions/checkout@v2
       - name: Set up Ruby
         uses: ruby/setup-ruby@473e4d8fe5dd94ee328fdfca9f8c9c7afc9dae5e
@@ -44,10 +59,10 @@ jobs:
       - name: Setup test database
         env:
           RAILS_ENV: test
-          POSTGRES_USER: stocketDB
-          POSTGRES_PASSWORD: stocket
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: password
           POSTGRES_DB: stocket_api_test
-        run: bundle exec rake db:create db:migrate
+        run: bundle exec rake db:migrate
 
   test:
     name: Test
