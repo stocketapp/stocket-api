@@ -67,7 +67,7 @@ jobs:
   test:
     name: Test
     runs-on: ubuntu-latest
-    needs: build
+    needs: setup
     strategy:
       matrix:
         ruby-version: ['2.7.2', '3.0']
