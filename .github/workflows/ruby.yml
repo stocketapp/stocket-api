@@ -51,4 +51,4 @@ jobs:
     steps:
       - name: start test
       - uses: actions/checkout@v2
-    run: bundle exec rake
+      run: bundle exec rake
