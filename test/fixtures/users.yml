@@ -4,8 +4,10 @@ one:
   displayName: User One
   email: user_one@gmail.com
   uid: 123
+  id: 1
 
 two:
   displayName: User Two
   email: user_two@gmail.com
   uid: 456
+  id: 2

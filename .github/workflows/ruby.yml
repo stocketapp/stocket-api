@@ -26,8 +26,8 @@ jobs:
         image: postgres:13
         env:
           POSTGRES_DB: stocket_api_test
-          POSTGRES_USER: stocketDB
-          POSTGRES_PASSWORD: stocket
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: password
         ports: ['5432:5432']
         options: >-
           --health-cmd pg_isready
