@@ -1,3 +1,5 @@
+require 'securerandom'
+
 module Mutations
   class CreateTrade < BaseMutation
     argument :symbol, String, "Stock symbol", required: true
@@ -15,7 +17,8 @@ module Mutations
         quantity: quantity,
         order_type: order_type,
         total: calc_total(price, quantity),
-        order_date: DateTime.now
+        order_date: DateTime.now,
+        reference_id: SecureRandom.uuid
       )
     end
 

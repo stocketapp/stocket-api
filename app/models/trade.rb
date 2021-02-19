@@ -4,6 +4,9 @@ class Trade < ApplicationRecord
   validates :price, presence: true
   validates :quantity, presence: true
   validates :order_type, presence: true
+  validates :reference_id, presence: true, uniqueness: true
+  validates :order_date, presence: true
+  validates :total, presence: true
 
   def self.get_trades(user)
     self.all
