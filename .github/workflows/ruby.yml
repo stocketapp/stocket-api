@@ -14,8 +14,8 @@ on:
     branches: [main]
 
 jobs:
-  setup:
-    name: Setup Environment
+  verify:
+    name: Build
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -44,11 +44,14 @@ jobs:
       - name: Setup test database
         env:
           RAILS_ENV: test
+          POSTGRES_USER: stocketDB
+          POSTGRES_PASSWORD: stocket
+          POSTGRES_DB: stocket_api_test
         run: bundle exec rake db:create db:migrate
-
   test:
     name: Test
     steps:
       - uses: actions/checkout@v2
-      - name: start test
+      - name: Run tests
       run: bundle exec rake
+
