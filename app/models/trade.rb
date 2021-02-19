@@ -12,13 +12,3 @@ class Trade < ApplicationRecord
     self.all
   end
 end
-
-
-# t.bigint "user_id"
-#     t.string "symbol"
-#     t.integer "quantity"
-#     t.decimal "price"
-#     t.decimal "total"
-#     t.string "order_type"
-#     t.date "order_date"
-#     t.index ["user_id"], name: "index_trades_on
