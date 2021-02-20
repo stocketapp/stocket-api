@@ -9,33 +9,43 @@ module Mutations
           symbol
           total
           userId
+          referenceId
         }
       }
     GRAPHQL
-
-    test 'Create a trade' do
-      input = {
-        symbol: 'AAPL',
-        price: 123.95,
-        quantity: 2,
-        orderType: 'BUY'
-      }
-      context = { current_user: { id: 1 }}
-      trade = StocketApiSchema.execute(mutation_string, variables: { input: input }, context: context)
-      assert !trade['data']['createTrade'].nil?
-    end
-
-    test 'Error when input is wrong' do
-      input = {
+    user_one = { current_user: { id: 1 }}
+    user_two = { current_user: { id: 2 }}
+    input = {
+      symbol: 'AAPL',
+      price: 123.95,
+      quantity: 2,
+      orderType: 'BUY'
+    }
+    wrong_input = {
         symbol: 'AAPL',
         price: '123.95',
         quantity: 2,
         orderType: 'BUY'
       }
-      context = { current_user: { id: 2 }}
-      trade = StocketApiSchema.execute(mutation_string, variables: { input: input }, context: context)
+
+    test 'Create a trade' do
+      trade = StocketApiSchema.execute(mutation_string, variables: { input: input }, context: user_one)
+
+      assert !trade['data']['createTrade'].nil?
+    end
+
+    test 'Error when input is wrong' do
+      trade = StocketApiSchema.execute(mutation_string, variables: { input: wrong_input }, context: user_two)
 
       assert !trade['errors'].nil?
+    end
+
+    test 'Create position when trade is created' do
+      trade = StocketApiSchema.execute(mutation_string, variables: { input: input }, context: user_two)
+      reference_id = trade['data']['createTrade']['referenceId']
+      pos = Position.find_by trade_reference_id: reference_id
+
+      assert_equal reference_id, pos.trade_reference_id
     end
   end
 end
