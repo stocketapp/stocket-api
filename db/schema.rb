@@ -10,10 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_19_004113) do
+ActiveRecord::Schema.define(version: 2021_02_20_005333) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "positions", force: :cascade do |t|
+    t.bigint "user_id"
+    t.string "symbol"
+    t.decimal "price"
+    t.decimal "quantity"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_positions_on_user_id"
+  end
 
   create_table "trades", force: :cascade do |t|
     t.bigint "user_id"
@@ -22,8 +32,8 @@ ActiveRecord::Schema.define(version: 2021_02_19_004113) do
     t.decimal "price"
     t.decimal "total"
     t.string "order_type"
-    t.date "order_date"
     t.string "reference_id"
+    t.datetime "created_at", null: false
     t.index ["user_id"], name: "index_trades_on_user_id"
   end
 
