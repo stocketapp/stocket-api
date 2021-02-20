@@ -1,7 +1,7 @@
 require 'test_helper'
 
 module Mutations
-  class CreateUserTest < ActionDispatch::IntegrationTest
+  class UserMutationsTest < ActionDispatch::IntegrationTest
     mutation_string = <<-GRAPHQL
         mutation CreateUser($input: CreateUserInput!) {
           createUser(input: $input) {
