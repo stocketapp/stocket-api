@@ -22,6 +22,13 @@ module Mutations
       if trade.nil?
         raise GraphQL::ExecutionError, trade.errors.full_messages.join(", ")
       else
+        pos = create_position(
+          trade.user_id,
+          trade.symbol,
+          trade.price,
+          trade.quantity,
+          trade.reference_id
+        )        
         trade
       end
     end
@@ -29,6 +36,16 @@ module Mutations
     private
     def calc_total(price, quantity)
       price * quantity
+    end
+
+    def create_position(user_id, symbol, price, quantity, reference_id)
+      Position.create!(
+        user_id: user_id,
+        symbol: symbol,
+        price: price,
+        quantity: quantity,
+        trade_reference_id: reference_id
+      )
     end
   end
 end
