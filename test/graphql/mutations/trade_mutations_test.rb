@@ -8,7 +8,6 @@ module Mutations
         createTrade(input: $input) {
           symbol
           total
-          orderDate
           userId
         }
       }
@@ -23,7 +22,6 @@ module Mutations
       }
       context = { current_user: { id: 1 }}
       trade = StocketApiSchema.execute(mutation_string, variables: { input: input }, context: context)
-
       assert !trade['data']['createTrade'].nil?
     end
 
