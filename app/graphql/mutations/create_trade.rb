@@ -10,7 +10,7 @@ module Mutations
     type Types::TradeType
 
     def resolve(symbol:, price:, quantity:, order_type:)
-      trade = Trade.create!(
+      obj = {
         user_id: context[:current_user][:id],
         symbol: symbol,
         price: price,
@@ -18,18 +18,13 @@ module Mutations
         order_type: order_type,
         total: calc_total(price, quantity),
         reference_id: SecureRandom.uuid
-      )
-      if trade.nil?
-        raise GraphQL::ExecutionError, trade.errors.full_messages.join(", ")
-      else
-        pos = create_position(
-          trade.user_id,
-          trade.symbol,
-          trade.price,
-          trade.quantity,
-          trade.reference_id
-        )        
-        trade
+      }
+      Trade.create!(obj) do |t|
+        if t.nil?
+          self.handle_error(t)
+        else
+          create_position(t)
+        end
       end
     end
 
@@ -38,14 +33,16 @@ module Mutations
       price * quantity
     end
 
-    def create_position(user_id, symbol, price, quantity, reference_id)
-      Position.create!(
-        user_id: user_id,
-        symbol: symbol,
-        price: price,
-        quantity: quantity,
-        trade_reference_id: reference_id
-      )
+    def create_position(trade)
+      if trade.order_type == 'BUY'
+        Position.create!(
+          user_id: trade.user_id,
+          symbol: trade.symbol,
+          price: trade.price,
+          quantity: trade.quantity,
+          trade_reference_id: trade.reference_id
+        )
+      end
     end
   end
 end
