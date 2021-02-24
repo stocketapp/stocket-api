@@ -5,9 +5,15 @@ one:
   email: user_one@gmail.com
   uid: 123
   id: 1
+  cash: 20000
+  created_at: '2021-02-09 22:21:41.294967'
+  updated_at: '2021-02-09 22:21:41.294967'
 
 two:
   displayName: User Two
   email: user_two@gmail.com
   uid: 456
   id: 2
+  cash: 20000
+  created_at: '2021-02-09 22:21:41.294967'
+  updated_at: '2021-02-09 22:21:41.294967'

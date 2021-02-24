@@ -13,4 +13,11 @@ class ShareTest < ActiveSupport::TestCase
 
     assert share['data'].nil?
   end
+
+  test 'Create multiple shares' do
+    trade = { user_id: 1, symbol: 'AMZN', price: 2091.94, trade_reference_id: '123', quantity: 5, total: 10459.7 }
+    shares = Share.buy(trade)
+    
+    assert_equal shares.length, 5
+  end
 end
