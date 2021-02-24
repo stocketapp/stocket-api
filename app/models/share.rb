@@ -12,11 +12,10 @@ class Share < ApplicationRecord
       })
     end
     Share.create!(shares) do |s|
-      user = User.find_by id: s[:user_id]
+      user = User.find_by id: t[:user_id]
       new_value = user[:cash] - t[:total]
       
-      user.update!(cash: user[:cash])
-      puts "NEW_CASH ~> #{user[:cash]}"
+      User.update(t[:user_id], cash: new_value)
     end
   end
 end

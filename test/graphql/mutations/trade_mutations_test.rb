@@ -22,16 +22,23 @@ module Mutations
       orderType: 'BUY'
     }
     wrong_input = {
-        symbol: 'AAPL',
-        price: '123.95',
-        quantity: 2,
-        orderType: 'BUY'
-      }
+      symbol: 'AAPL',
+      price: '123.95',
+      quantity: 2,
+      orderType: 'BUY'
+    }
 
     test 'Create a trade' do
       trade = StocketApiSchema.execute(mutation_string, variables: { input: input }, context: user_one)
 
       assert !trade['data']['createTrade'].nil?
+    end
+
+    test 'It calculates total' do
+      trade = StocketApiSchema.execute(mutation_string, variables: { input: input }, context: user_one)
+      total = trade['data']['createTrade']['total']
+      
+      assert_equal total, 247.9
     end
 
     test 'Error when input is wrong' do
@@ -40,12 +47,28 @@ module Mutations
       assert !trade['errors'].nil?
     end
 
-    test 'Create position when trade is created' do
+    test 'Add shares when order type is "BUY"' do
       trade = StocketApiSchema.execute(mutation_string, variables: { input: input }, context: user_two)
       reference_id = trade['data']['createTrade']['referenceId']
-      pos = Position.find_by trade_reference_id: reference_id
+      shares = Share.where trade_reference_id: reference_id
 
-      assert_equal reference_id, pos.trade_reference_id
+      assert_equal shares.length, 2
+    end
+
+    test 'Decrease cash when buying' do
+      StocketApiSchema.execute(mutation_string, variables: { input: input }, context: user_two)
+      user = User.find_by id: 2
+
+      assert_equal user[:cash], 19504.2
+    end
+
+    test 'Sell shares when order type is "SELL"' do
+      # trade = StocketApiSchema.execute(mutation_string, variables: { input: input }, context: user_two)
+      # reference_id = trade['data']['createTrade']['referenceId']
+      # shares = Shares.find_by trade_reference_id: reference_id
+
+      # assert_equal shares.length, 2
+      assert false
     end
   end
 end
