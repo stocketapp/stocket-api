@@ -23,7 +23,7 @@ module Mutations
         if t.nil?
           self.handle_error(t)
         else
-          create_position(t)
+          Share.buy(t)
         end
       end
     end
@@ -31,18 +31,6 @@ module Mutations
     private
     def calc_total(price, quantity)
       price * quantity
-    end
-
-    def create_position(trade)
-      if trade.order_type == 'BUY'
-        Position.create!(
-          user_id: trade.user_id,
-          symbol: trade.symbol,
-          price: trade.price,
-          quantity: trade.quantity,
-          trade_reference_id: trade.reference_id
-        )
-      end
     end
   end
 end
