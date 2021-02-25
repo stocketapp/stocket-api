@@ -18,4 +18,17 @@ class Share < ApplicationRecord
       User.update(t[:user_id], cash: new_value)
     end
   end
+
+  def self.sell(t)
+    symbol = t[:symbol]
+    shares = Share.where symbol: symbol
+    trade_qtty = t[:quantity]
+    
+    if shares.length >= trade_qtty
+      ids = shares.last(trade_qtty).map { |el| el[:id] }
+      Share.where(id: ids).destroy_all
+      user = User.find_by! id: t[:user_id]
+      User.update(user[:id], cash: user[:cash] + t[:total])
+    end
+  end
 end

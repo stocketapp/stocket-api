@@ -23,7 +23,11 @@ module Mutations
         if t.nil?
           self.handle_error(t)
         else
-          Share.buy(t)
+          if t.order_type == 'BUY'
+            Share.buy(t)
+          elsif t.order_type == 'SELL'
+            Share.sell(t)
+          end
         end
       end
     end
