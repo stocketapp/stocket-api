@@ -15,8 +15,14 @@ class ShareTest < ActiveSupport::TestCase
   end
 
   test 'Create multiple shares' do
-    trade = { user_id: 1, symbol: 'AMZN', price: 90.78, reference_id: '123', quantity: 5, total: 453.9 }
-    shares = Share.buy(trade)
+    trades = [
+      { user_id: 1, symbol: 'AMZN', price: 90.78, trade_reference_id: '123' },
+      { user_id: 1, symbol: 'AMZN', price: 90.78, trade_reference_id: '123' },
+      { user_id: 1, symbol: 'AMZN', price: 90.78, trade_reference_id: '123' },
+      { user_id: 1, symbol: 'AMZN', price: 90.78, trade_reference_id: '123' },
+      { user_id: 1, symbol: 'AMZN', price: 90.78, trade_reference_id: '123' }
+    ]
+    shares = Share.create!(trades)
     
     assert_equal shares.length, 5
   end

@@ -24,9 +24,9 @@ module Mutations
           self.handle_error(t)
         else
           if t.order_type == 'BUY'
-            Share.buy(t)
+            t.buy()
           elsif t.order_type == 'SELL'
-            Share.sell(t)
+            t.sell()
           end
         end
       end
