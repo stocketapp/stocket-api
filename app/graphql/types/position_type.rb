@@ -13,15 +13,20 @@ module Types
     end
 
     def value
-      object[:current_value]
+      calc_value(object[:latest_price])
     end
 
     def change
-      sprintf '%.2f', calc_change
+      (sprintf '%.2f', calc_change).to_f
     end
 
     def change_pct
-      sprintf '%.2f', (calc_change / object[:current_value]) * 100
+      (sprintf '%.2f', (calc_change / calc_value(object[:latest_price])) * 100).to_f
+    end
+
+    def avg_price
+      shares = object[:shares]
+      (sprintf '%.2f', shares.map { |el| el['price'] }.sum(0.0) / shares.size).to_f
     end
 
     # def today_gains
@@ -41,13 +46,17 @@ module Types
     def diff(a, b)
       a - b.abs
     end
-
-    def calc_change
-      object[:current_value] - object[:previous_value].abs
+    
+    def calc_value(value)
+      (sprintf '%.2f', object[:shares].size * value).to_f
     end
 
-    def cal_value
-      (sprintf "%.2f", object[:shares].length * object[:latest_price]).to_f
+    def yesterday_value
+      object[:shares].size * object[:yesterday_price]
+    end
+
+    def calc_change
+      calc_value(object[:latest_price]) - calc_value(object[:yesterday_price]).abs
     end
   end
 end

@@ -32,20 +32,16 @@ module Types
       shares = Share.where symbol: symbol, user_id: context[:current_user][:id]
       latest_price = Share.iex_price(symbol)
       yesterday_price = Share.iex_yesterday_price(symbol)
-      today_change = shares.map { |el| latest_price - el.price }.reduce(:+)
-      yesterday_change = shares.map { |el| yesterday_price - el.price }.reduce(:+)
-      previous_value = shares.length * yesterday_price
-      current_value = shares.length * latest_price
+      # today_change = shares.map { |el| latest_price - el.price }.reduce(:+)
+      # yesterday_change = shares.map { |el| yesterday_price - el.price }.reduce(:+)
 
       {
         symbol: symbol,
         shares: shares,
         latest_price: latest_price,
         yesterday_price: yesterday_price,
-        today_change: today_change,
-        yesterday_change: yesterday_change,
-        previous_value: previous_value,
-        current_value: current_value
+        # today_change: today_change,
+        # yesterday_change: yesterday_change,
       }
     end
   end
