@@ -17,11 +17,11 @@ module Types
     end
 
     def change
-      (sprintf '%.2f', calc_change).to_f
+      print_f value: calc_change
     end
 
     def change_pct
-      (sprintf '%.2f', (calc_change / calc_value(object[:latest_price])) * 100).to_f
+      print_f value: (calc_change / calc_value(object[:latest_price])) * 100
     end
 
     def avg_price
@@ -48,7 +48,7 @@ module Types
     end
     
     def calc_value(value)
-      (sprintf '%.2f', object[:shares].size * value).to_f
+      print_f value: calc_shares_qtty * value
     end
 
     def yesterday_value
@@ -57,6 +57,14 @@ module Types
 
     def calc_change
       calc_value(object[:latest_price]) - calc_value(object[:yesterday_price]).abs
+    end
+
+    def calc_shares_qtty
+      object[:shares].map { |el| el.size }.sum(0)
+    end
+
+    def print_f(value:)
+      (sprintf '%.2f', value).to_f
     end
   end
 end
