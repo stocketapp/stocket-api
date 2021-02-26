@@ -58,26 +58,26 @@ module Mutations
       reference_id = trade['data']['createTrade']['referenceId']
       user_id = user_one[:current_user][:id]
 
-      shares = Share.where trade_reference_id: reference_id, user_id: user_id
+      share = Share.find_by trade_reference_id: reference_id, user_id: user_id
 
-      assert_equal shares.length, 4
+      assert_equal share.size, 4
     end
 
     test 'Decrease cash when buying' do
-      StocketApiSchema.execute(mutation_string, variables: { input: buy_input }, context: user_one)
+      trade = StocketApiSchema.execute(mutation_string, variables: { input: buy_input }, context: user_one)
       user = User.find_by id: 1
 
-      assert_equal user[:cash], 18016.8
+      assert_equal user[:cash], 20_000 - trade['data']['createTrade']['total']
     end
 
     test 'Sell shares when order type is "SELL"' do
-      StocketApiSchema.execute(mutation_string, variables: { input: buy_input }, context: user_one)
-      trade = StocketApiSchema.execute(mutation_string, variables: { input: sell_input }, context: user_one)
-      symbol = trade['data']['createTrade']['symbol']
+      buy_trade = StocketApiSchema.execute(mutation_string, variables: { input: buy_input }, context: user_one)
+      reference_id = buy_trade['data']['createTrade']['referenceId']
+      sell_trade = StocketApiSchema.execute(mutation_string, variables: { input: sell_input }, context: user_one)
       user_id = user_one[:current_user][:id]
-      shares_length = Share.where(symbol: symbol, user_id: user_id).length
+      shares_size = Share.find_by(trade_reference_id: reference_id, user_id: user_id)[:size]
 
-      assert_equal shares_length, 2
+      assert_equal shares_size, 2
     end
 
     test 'Increase cash when selling' do
