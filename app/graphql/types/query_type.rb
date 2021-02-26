@@ -8,7 +8,7 @@ module Types
     field :get_quote, Types::IexQuoteType, null: false do
       argument :symbol, String, required: true
     end
-    field :position, Types::PositionType, null: false do
+    field :position, Types::PositionType, null: false, resolver_method: :position do
       argument :symbol, String, required: true
     end
 
@@ -28,14 +28,25 @@ module Types
       Watchlist.fetch_iex_quote(symbol)
     end
 
-    def position
-      # {
-      #   'symbol' => 'AMZN',
-      #   'change' => 90.78,
-      #   'value' => 100.90,
-      #   'pct_change' => 2.78,
-      #   'avg_price' => 23.7
-      # }
+    def position(symbol:)
+      shares = Share.where symbol: symbol, user_id: context[:current_user][:id]
+      latest_price = Share.iex_price(symbol)
+      yesterday_price = Share.iex_yesterday_price(symbol)
+      today_change = shares.map { |el| latest_price - el.price }.reduce(:+)
+      yesterday_change = shares.map { |el| yesterday_price - el.price }.reduce(:+)
+      previous_value = shares.length * yesterday_price
+      current_value = shares.length * latest_price
+
+      {
+        symbol: symbol,
+        shares: shares,
+        latest_price: latest_price,
+        yesterday_price: yesterday_price,
+        today_change: today_change,
+        yesterday_change: yesterday_change,
+        previous_value: previous_value,
+        current_value: current_value
+      }
     end
   end
 end
