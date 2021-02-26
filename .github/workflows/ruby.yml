@@ -93,6 +93,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           runners: rubocop
+          target: origin/main
 
   test:
     name: Test
