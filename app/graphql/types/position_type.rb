@@ -5,8 +5,7 @@ module Types
     field :change_pct, Float, null: false
     field :change, Float, null: false
     field :avg_price, Float, null: false
-    # field :today_gains, Float, null: false
-    # field :total_gains, Float, null: false
+    field :position_size, Integer, null: false
 
     def symbol
       object[:symbol]
@@ -26,7 +25,11 @@ module Types
 
     def avg_price
       shares = object[:shares]
-      (sprintf '%.2f', shares.map { |el| el['price'] }.sum(0.0) / shares.size).to_f
+      print_f value: shares.map { |el| el['price'] }.sum(0.00) / shares.size
+    end
+
+    def position_size
+      calc_shares_qtty
     end
 
     # def today_gains
