@@ -1,0 +1,6 @@
+one:
+  symbol: 'AMZN'
+  price: 123.95
+  quantity: 5
+  order_type: 'BUY'
+  user_id: 1

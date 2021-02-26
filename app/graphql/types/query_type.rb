@@ -8,6 +8,9 @@ module Types
     field :get_quote, Types::IexQuoteType, null: false do
       argument :symbol, String, required: true
     end
+    field :position, Types::PositionType, null: false do
+      argument :symbol, String, required: true
+    end
 
     def fetch_user
       User.find_by! uid: context[:current_user][:uid]
@@ -23,6 +26,16 @@ module Types
 
     def get_quote(symbol:)
       Watchlist.fetch_iex_quote(symbol)
+    end
+
+    def position
+      # {
+      #   'symbol' => 'AMZN',
+      #   'change' => 90.78,
+      #   'value' => 100.90,
+      #   'pct_change' => 2.78,
+      #   'avg_price' => 23.7
+      # }
     end
   end
 end
