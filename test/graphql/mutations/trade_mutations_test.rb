@@ -56,7 +56,9 @@ module Mutations
     test 'Add shares when order type is "BUY"' do
       trade = StocketApiSchema.execute(mutation_string, variables: { input: buy_input }, context: user_one)
       reference_id = trade['data']['createTrade']['referenceId']
-      shares = Share.where trade_reference_id: reference_id
+      user_id = user_one[:current_user][:id]
+
+      shares = Share.where trade_reference_id: reference_id, user_id: user_id
 
       assert_equal shares.length, 4
     end
@@ -71,7 +73,9 @@ module Mutations
     test 'Sell shares when order type is "SELL"' do
       StocketApiSchema.execute(mutation_string, variables: { input: buy_input }, context: user_one)
       trade = StocketApiSchema.execute(mutation_string, variables: { input: sell_input }, context: user_one)
-      shares_length = Share.where(symbol: trade['data']['createTrade']['symbol']).length
+      symbol = trade['data']['createTrade']['symbol']
+      user_id = user_one[:current_user][:id]
+      shares_length = Share.where(symbol: symbol, user_id: user_id).length
 
       assert_equal shares_length, 2
     end
