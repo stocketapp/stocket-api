@@ -1,0 +1,15 @@
+one:
+  id: 1
+  user_id: 1
+  price: 123.76
+  size: 5
+  symbol: 'AMZN'
+  trade_reference_id: '123'
+
+one:
+  id: 1
+  user_id: 1
+  price: 134.69
+  size: 3
+  symbol: 'AMZN'
+  trade_reference_id: '123'
