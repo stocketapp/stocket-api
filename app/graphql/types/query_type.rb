@@ -11,6 +11,7 @@ module Types
     field :position, Types::PositionType, null: false, resolver_method: :position do
       argument :symbol, String, required: true
     end
+    field :trades, [Types::TradeType], null: false, resolver_method: :get_trades
 
     def fetch_user
       User.find_by! uid: context[:current_user][:uid]
@@ -32,17 +33,17 @@ module Types
       shares = Share.where symbol: symbol, user_id: context[:current_user][:id]
       latest_price = Share.iex_price(symbol)
       yesterday_price = Share.iex_yesterday_price(symbol)
-      # today_change = shares.map { |el| latest_price - el.price }.reduce(:+)
-      # yesterday_change = shares.map { |el| yesterday_price - el.price }.reduce(:+)
 
       {
         symbol: symbol,
         shares: shares,
         latest_price: latest_price,
         yesterday_price: yesterday_price,
-        # today_change: today_change,
-        # yesterday_change: yesterday_change,
       }
+    end
+
+    def get_trades
+      Trade.where user_id: context[:current_user][:id]
     end
   end
 end

@@ -7,11 +7,11 @@ one:
   trade_reference_id: '123'
   purchase_value: 618.8
 
-one:
-  id: 1
+two:
+  id: 2
   user_id: 1
   price: 134.69
   size: 3
   symbol: 'AMZN'
-  trade_reference_id: '123'
+  trade_reference_id: '456'
   purchase_value: 404.07

@@ -1,6 +1,21 @@
 one:
+  id: 1
   symbol: 'AMZN'
-  price: 123.95
+  price: 123.76
   quantity: 5
   order_type: 'BUY'
   user_id: 1
+  reference_id: '123'
+  total: 618.8
+  created_at: '2021-02-09 22:21:41.294967'
+
+two:
+  id: 2
+  symbol: 'AMZN'
+  price: 134.69
+  quantity: 3
+  order_type: 'BUY'
+  user_id: 1
+  reference_id: '456'
+  total: 404.07
+  created_at: '2021-02-10 22:21:41.294967'

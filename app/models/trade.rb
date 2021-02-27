@@ -7,10 +7,6 @@ class Trade < ApplicationRecord
   validates :reference_id, presence: true, uniqueness: true
   validates :total, presence: true
 
-  def self.get_trades(user)
-    self.all
-  end
-
   def buy
     share = {
       user_id: self.user_id,
