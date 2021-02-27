@@ -5,6 +5,7 @@ one:
   size: 5
   symbol: 'AMZN'
   trade_reference_id: '123'
+  purchase_value: 618.8
 
 one:
   id: 1
@@ -13,3 +14,4 @@ one:
   size: 3
   symbol: 'AMZN'
   trade_reference_id: '123'
+  purchase_value: 404.07
