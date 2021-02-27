@@ -109,7 +109,6 @@ jobs:
           POSTGRES_DB: stocket_api_test
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: password
-          IEX_CLOUD_TOKEN: ${{ secrets.IEX_CLOUD_TOKEN }}
         ports: ['5432:5432']
         options: >-
           --health-cmd pg_isready
@@ -125,4 +124,6 @@ jobs:
           ruby-version: ${{ matrix.ruby-version }}
           bundler-cache: true # runs 'bundle install' and caches installed gems automatically
       - name: Run tests
+        env:
+          IEX_CLOUD_TOKEN: ${{ secrets.IEX_CLOUD_TOKEN }}
         run: bundle exec rake
