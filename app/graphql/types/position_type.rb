@@ -1,7 +1,7 @@
 module Types
   class PositionType < Types::BaseObject
     field :symbol, String, null: false
-    field :value, Float, null: false
+    field :total_value, Float, null: false
     field :change_pct, Float, null: false
     field :change, Float, null: false
     field :avg_price, Float, null: false
@@ -11,8 +11,8 @@ module Types
       object[:symbol]
     end
 
-    def value
-      calc_value(object[:latest_price])
+    def total_value
+      print_f value: calc_value(object[:latest_price])
     end
 
     def change
