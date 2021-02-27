@@ -1,0 +1,65 @@
+module Types
+  class PositionType < Types::BaseObject
+    field :symbol, String, null: false
+    field :total_value, Float, null: false
+    field :change_pct, Float, null: false
+    field :change, Float, null: false
+    field :avg_price, Float, null: false
+    field :position_size, Integer, null: false
+    field :total_gains, Float, null: false
+
+    def symbol
+      object[:symbol]
+    end
+
+    def total_value
+      calc_value(object[:latest_price])
+    end
+
+    def change
+      calc_change
+    end
+
+    def change_pct
+      print_f value: (calc_change / calc_value(object[:latest_price])) * 100
+    end
+
+    def avg_price
+      shares = object[:shares]
+      shares.map { |el| el['price'] }.sum(0.00) / shares.size
+    end
+
+    def position_size
+      calc_shares_qtty
+    end
+
+    def total_gains
+      print_f value: diff(calc_value(object[:latest_price]), object[:shares].map { |el| el['purchase_value'] }.sum)
+    end
+
+    private
+    def diff(a, b)
+      a - b.abs
+    end
+    
+    # Calculates the total value based on the price passed
+    def calc_value(price)
+      print_f value: calc_shares_qtty * price
+    end
+
+    # Returns the difference of the shares value between the preevious day and today
+    def calc_change
+      print_f value: diff(calc_value(object[:latest_price]), calc_value(object[:yesterday_price]))
+    end
+
+    # Returns the amount of shares owned
+    def calc_shares_qtty
+      object[:shares].map { |el| el.size }.sum(0)
+    end
+
+    # Returns number formatted with two digits after decimal point
+    def print_f(value:)
+      (sprintf '%.2f', value).to_f
+    end
+  end
+end

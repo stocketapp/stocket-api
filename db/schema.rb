@@ -10,10 +10,33 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_19_004113) do
+ActiveRecord::Schema.define(version: 2021_02_27_011116) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "positions", force: :cascade do |t|
+    t.bigint "user_id"
+    t.string "symbol"
+    t.decimal "price"
+    t.integer "quantity"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "trade_reference_id", null: false
+    t.index ["user_id"], name: "index_positions_on_user_id"
+  end
+
+  create_table "shares", force: :cascade do |t|
+    t.bigint "user_id"
+    t.string "symbol"
+    t.decimal "price"
+    t.string "trade_reference_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "size"
+    t.float "purchase_value"
+    t.index ["user_id"], name: "index_shares_on_user_id"
+  end
 
   create_table "trades", force: :cascade do |t|
     t.bigint "user_id"
@@ -22,8 +45,8 @@ ActiveRecord::Schema.define(version: 2021_02_19_004113) do
     t.decimal "price"
     t.decimal "total"
     t.string "order_type"
-    t.date "order_date"
     t.string "reference_id"
+    t.datetime "created_at", null: false
     t.index ["user_id"], name: "index_trades_on_user_id"
   end
 
@@ -37,9 +60,13 @@ ActiveRecord::Schema.define(version: 2021_02_19_004113) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string "uid"
-    t.string "email"
+    t.string "uid", null: false
+    t.string "email", null: false
     t.string "displayName"
+    t.decimal "cash"
+    t.decimal "apns_token"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "watchlists", force: :cascade do |t|

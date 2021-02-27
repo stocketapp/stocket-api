@@ -37,4 +37,12 @@ class ApplicationRecord < ActiveRecord::Base
   def self.fetch_iex_news(symbol)
     @@client.news(symbol)
   end
+
+  def self.iex_price(symbol)
+    @@client.price(symbol)
+  end
+
+  def self.iex_yesterday_price(symbol)
+    @@client.get("stock/#{symbol}/previous", token: ENV['IEX_CLOUD_SECRET'])['close']
+  end
 end

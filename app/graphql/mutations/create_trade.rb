@@ -10,20 +10,25 @@ module Mutations
     type Types::TradeType
 
     def resolve(symbol:, price:, quantity:, order_type:)
-      trade = Trade.create!(
+      obj = {
         user_id: context[:current_user][:id],
         symbol: symbol,
         price: price,
         quantity: quantity,
         order_type: order_type,
         total: calc_total(price, quantity),
-        order_date: DateTime.now,
         reference_id: SecureRandom.uuid
-      )
-      if trade.nil?
-        raise GraphQL::ExecutionError, trade.errors.full_messages.join(", ")
-      else
-        trade
+      }
+      Trade.create!(obj) do |t|
+        if t.nil?
+          self.handle_error(t)
+        else
+          if t.order_type == 'BUY'
+            t.buy()
+          elsif t.order_type == 'SELL'
+            t.sell()
+          end
+        end
       end
     end
 

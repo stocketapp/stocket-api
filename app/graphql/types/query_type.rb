@@ -8,6 +8,10 @@ module Types
     field :get_quote, Types::IexQuoteType, null: false do
       argument :symbol, String, required: true
     end
+    field :position, Types::PositionType, null: false, resolver_method: :position do
+      argument :symbol, String, required: true
+    end
+    field :trades, [Types::TradeType], null: false, resolver_method: :get_trades
 
     def fetch_user
       User.find_by! uid: context[:current_user][:uid]
@@ -23,6 +27,23 @@ module Types
 
     def get_quote(symbol:)
       Watchlist.fetch_iex_quote(symbol)
+    end
+
+    def position(symbol:)
+      shares = Share.where symbol: symbol, user_id: context[:current_user][:id]
+      latest_price = Share.iex_price(symbol)
+      yesterday_price = Share.iex_yesterday_price(symbol)
+
+      {
+        symbol: symbol,
+        shares: shares,
+        latest_price: latest_price,
+        yesterday_price: yesterday_price,
+      }
+    end
+
+    def get_trades
+      Trade.where user_id: context[:current_user][:id]
     end
   end
 end

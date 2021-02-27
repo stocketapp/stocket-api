@@ -20,7 +20,6 @@ jobs:
     strategy:
       matrix:
         ruby-version: ['2.7.2']
-
     services:
       postgres:
         image: postgres:13
@@ -67,7 +66,6 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
-
     steps:
       - uses: actions/checkout@v2
       - name: Set up Ruby
@@ -80,6 +78,23 @@ jobs:
           RAILS_ENV: test
         run: bundle exec rake db:migrate
 
+  # pronto:
+  #   name: Pronto
+  #   runs-on: ubuntu-latest
+  #   needs: build
+  #   strategy:
+  #     matrix:
+  #       ruby-version: ['2.7.2']
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - run: git fetch origin main --depth=1
+  #     - uses: adwerx/pronto-ruby@v2.9
+  #       env:
+  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #       with:
+  #         runners: rubocop
+  #         target: origin/main
+
   test:
     name: Test
     runs-on: ubuntu-latest
@@ -87,7 +102,6 @@ jobs:
     strategy:
       matrix:
         ruby-version: ['2.7.2']
-
     services:
       postgres:
         image: postgres:13
@@ -110,4 +124,9 @@ jobs:
           ruby-version: ${{ matrix.ruby-version }}
           bundler-cache: true # runs 'bundle install' and caches installed gems automatically
       - name: Run tests
-        run: bundle exec rake
+        env:
+          IEX_CLOUD_TOKEN: ${{ secrets.IEX_CLOUD_TOKEN }}
+          IEX_CLOUD_SECRET: ${{ secrets.IEX_CLOUD_SECRET }}
+          IEX_CLOUD_URL: ${{ secrets.IEX_CLOUD_URL }}
+          RAILS_ENV: test
+        run: bundle exec rake test
