@@ -126,4 +126,5 @@ jobs:
       - name: Run tests
         env:
           IEX_CLOUD_TOKEN: ${{ secrets.IEX_CLOUD_TOKEN }}
-        run: bundle exec rake
+          RAILS_ENV: test
+        run: bundle exec rake test
