@@ -6,17 +6,18 @@ module Types
     field :change, Float, null: false
     field :avg_price, Float, null: false
     field :position_size, Integer, null: false
+    field :total_gains, Float, null: false
 
     def symbol
       object[:symbol]
     end
 
     def total_value
-      print_f value: calc_value(object[:latest_price])
+      calc_value(object[:latest_price])
     end
 
     def change
-      print_f value: calc_change
+      calc_change
     end
 
     def change_pct
@@ -25,47 +26,38 @@ module Types
 
     def avg_price
       shares = object[:shares]
-      print_f value: shares.map { |el| el['price'] }.sum(0.00) / shares.size
+      shares.map { |el| el['price'] }.sum(0.00) / shares.size
     end
 
     def position_size
       calc_shares_qtty
     end
 
-    # def today_gains
-    #   shares = object[:shares]
-    #   gains = diff(object[:today_change], object[:yesterday_change])
-
-    #   sprintf "%.2f", gains
-    # end
-
-    # TODO: CALCULATE TOTAL GAINS BASED ON HISTORY
-    # def total_gains
-    #   res = object[:shares].map { |el| (object[:latest_price] - el['price']) / el['price'] }
-    #   res.reduce(:+)
-    # end
+    def total_gains
+      print_f value: diff(calc_value(object[:latest_price]), object[:shares].map { |el| el['purchase_value'] }.sum)
+    end
 
     private
     def diff(a, b)
       a - b.abs
     end
     
-    def calc_value(value)
-      print_f value: calc_shares_qtty * value
+    # Calculates the total value based on the price passed
+    def calc_value(price)
+      print_f value: calc_shares_qtty * price
     end
 
-    def yesterday_value
-      object[:shares].size * object[:yesterday_price]
-    end
-
+    # Returns the difference of the shares value between the preevious day and today
     def calc_change
-      calc_value(object[:latest_price]) - calc_value(object[:yesterday_price]).abs
+      print_f value: diff(calc_value(object[:latest_price]), calc_value(object[:yesterday_price]))
     end
 
+    # Returns the amount of shares owned
     def calc_shares_qtty
       object[:shares].map { |el| el.size }.sum(0)
     end
 
+    # Returns number formatted with two digits after decimal point
     def print_f(value:)
       (sprintf '%.2f', value).to_f
     end

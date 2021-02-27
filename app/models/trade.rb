@@ -17,7 +17,8 @@ class Trade < ApplicationRecord
       symbol: self.symbol,
       price: self.price,
       trade_reference_id: self.reference_id,
-      size: self.quantity
+      size: self.quantity,
+      purchase_value: self.total
     }
     Share.create!(share) do |s|
       user = User.find_by id: self.user_id
