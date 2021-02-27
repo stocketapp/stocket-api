@@ -4,7 +4,7 @@ module Types
   class QueryType < Types::BaseObject
     field :get_user, Types::UserType, null: false, resolver_method: :fetch_user
     field :get_user_info, Types::UserInfoType, null: false, resolver_method: :fetch_user_info
-    field :watchlist, Types::WatchlistQuotesType, null: false, resolver_method: :fetch_watchlist
+    field :watchlist, Types::WatchlistQuotesType, null: true, resolver_method: :fetch_watchlist
     field :get_quote, Types::IexQuoteType, null: false do
       argument :symbol, String, required: true
     end
