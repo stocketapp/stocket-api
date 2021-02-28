@@ -6,6 +6,7 @@ class CreateUsers < ActiveRecord::Migration[6.0]
       t.string :displayName
       t.decimal :cash
       t.decimal :apns_token
+      t.decimal :portfolio_value, precision: 2
 
       t.timestamps
     end

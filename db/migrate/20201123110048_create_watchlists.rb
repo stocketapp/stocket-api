@@ -2,7 +2,6 @@ class CreateWatchlists < ActiveRecord::Migration[6.0]
   def change
     create_table :watchlists do |t|
       t.string :symbol
-      t.string :name
       t.belongs_to :user
 
       t.timestamps

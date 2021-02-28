@@ -14,9 +14,7 @@ module Mutations
     
     test 'Can query all trades made by user' do
       query = StocketApiSchema.execute(query_string, variables: nil, context: context)
-      trades = query['data']
-      puts trades
-      assert !trades.nil?
+      assert query['data']['trades'].size > 0
     end
   end
 end
