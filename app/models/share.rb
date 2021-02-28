@@ -6,7 +6,4 @@ class Share < ApplicationRecord
   validates :user_id, presence: true
   validates :size, presence: true
   validates :purchase_value, presence: true
-
-  def self.position(symbol)
-  end
 end

@@ -1,5 +1,4 @@
 class User < ApplicationRecord
-  has_one :user_info
   has_many :trades
   has_many :shares
   has_many :balance_histories
