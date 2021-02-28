@@ -4,10 +4,11 @@ class CreateTrades < ActiveRecord::Migration[6.0]
       t.belongs_to :user
       t.string :symbol
       t.integer :quantity
-      t.decimal :price
-      t.decimal :total
+      t.decimal :price, precision: 2
+      t.decimal :total, precision: 2
       t.string :order_type
-      t.date :order_date
+
+      t.timestamps
     end
   end
 end

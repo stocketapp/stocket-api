@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  value: 1.5
+  change: 1.5
+  change_pct: 1.5
+  user: one
+
+two:
+  value: 1.5
+  change: 1.5
+  change_pct: 1.5
+  user: two
