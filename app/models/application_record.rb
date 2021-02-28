@@ -1,14 +1,15 @@
+# ApplicationRecord
 class ApplicationRecord < ActiveRecord::Base
   self.abstract_class = true
 
-  @@client = IEX::Api::Client.new(
+  @client = IEX::Api::Client.new(
     publishable_token: ENV['IEX_CLOUD_TOKEN'],
     secret_token: ENV['IEX_CLOUD_SECRET'],
-    endpoint: ENV['IEX_CLOUD_URL'],
+    endpoint: ENV['IEX_CLOUD_URL']
   )
 
   def self.fetch_iex_batch_quote(symbols)
-    @@client.get(
+    iex_client.get(
       'stock/market/batch',
       symbols: symbols,
       types: 'quote',
@@ -16,33 +17,35 @@ class ApplicationRecord < ActiveRecord::Base
     )
   end
 
-  def self.fetch_iex_stock(symbols)
-    @@client.get(
-      'stock/market/batch',
-      symbols: symbols,
-      types: 'quote,news,chart',
-    )
-  end
-  
-  def self.fetch_iex_quote(symbol)
-    quote = @@client.quote(symbol)
-    logo = {"logo" => "https://storage.googleapis.com/iex/api/logos/#{symbol}.png"}
+  def iex_quote
+    quote = @client.quote(symbol)
+    logo = { 'logo' => "https://storage.googleapis.com/iex/api/logos/#{symbol}.png" }
     logo.merge(quote)
   end
 
-  def self.fetch_iex_chart(symbol)
-    @@client.chart(symbol)
+  def self.iex_quote(symbol)
+    quote = iex_client.quote(symbol)
+    logo = { 'logo' => "https://storage.googleapis.com/iex/api/logos/#{symbol}.png" }
+    logo.merge(quote)
   end
 
-  def self.fetch_iex_news(symbol)
-    @@client.news(symbol)
+  def iex_price
+    @client.price(symbol)
   end
 
   def self.iex_price(symbol)
-    @@client.price(symbol)
+    iex_client.price(symbol)
   end
 
   def self.iex_yesterday_price(symbol)
-    @@client.get("stock/#{symbol}/previous", token: ENV['IEX_CLOUD_SECRET'])['close']
+    iex_client.get("stock/#{symbol}/previous", token: ENV['IEX_CLOUD_SECRET'])['close']
+  end
+
+  def self.iex_client
+    IEX::Api::Client.new(
+      publishable_token: ENV['IEX_CLOUD_TOKEN'],
+      secret_token: ENV['IEX_CLOUD_SECRET'],
+      endpoint: ENV['IEX_CLOUD_URL']
+    )
   end
 end

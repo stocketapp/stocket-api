@@ -1,16 +1,18 @@
 require 'json'
 
+# Types
 module Types
+  # QueryType
   class QueryType < Types::BaseObject
-    field :get_user, Types::UserType, null: false, resolver_method: :fetch_user
+    field :user, Types::UserType, null: false, resolver_method: :fetch_user
     field :watchlist, Types::WatchlistQuotesType, null: true, resolver_method: :fetch_watchlist
-    field :get_quote, Types::IexQuoteType, null: false do
+    field :quote, Types::IexQuoteType, null: false do
       argument :symbol, String, required: true
     end
     field :position, Types::PositionType, null: false, resolver_method: :position do
       argument :symbol, String, required: true
     end
-    field :trades, [Types::TradeType], null: false, resolver_method: :get_trades
+    field :trades, [Types::TradeType], null: false
 
     def fetch_user
       User.find_by! uid: context[:current_user][:uid]
@@ -20,8 +22,8 @@ module Types
       Watchlist.watchlist_prices(context[:current_user][:id])
     end
 
-    def get_quote(symbol:)
-      Watchlist.fetch_iex_quote(symbol)
+    def quote(symbol:)
+      Watchlist.find_by(symbol: symbol, user_id: context[:current_user][:uid]).iex_quote
     end
 
     def position(symbol:)
@@ -37,7 +39,7 @@ module Types
       }
     end
 
-    def get_trades
+    def trades
       Trade.where user_id: context[:current_user][:id]
     end
   end
