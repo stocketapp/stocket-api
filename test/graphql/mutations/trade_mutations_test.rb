@@ -14,7 +14,7 @@ module Mutations
         }
       }
     GRAPHQL
-    user_one = { current_user: { id: 1 }}
+    user_one = { current_user: { id: 1 } }
     buy_input = {
       symbol: 'AAPL',
       price: 123.95,
@@ -43,7 +43,6 @@ module Mutations
     test 'It calculates total' do
       trade = StocketApiSchema.execute(mutation_string, variables: { input: buy_input }, context: user_one)
       total = trade['data']['createTrade']['total']
-      
       assert_equal total, 495.8
     end
 
@@ -73,7 +72,7 @@ module Mutations
     test 'Sell shares when order type is "SELL"' do
       buy_trade = StocketApiSchema.execute(mutation_string, variables: { input: buy_input }, context: user_one)
       reference_id = buy_trade['data']['createTrade']['referenceId']
-      sell_trade = StocketApiSchema.execute(mutation_string, variables: { input: sell_input }, context: user_one)
+      StocketApiSchema.execute(mutation_string, variables: { input: sell_input }, context: user_one)
       user_id = user_one[:current_user][:id]
       shares_size = Share.find_by(trade_reference_id: reference_id, user_id: user_id)[:size]
 

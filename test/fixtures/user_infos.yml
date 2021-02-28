@@ -1,9 +1,0 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
-one:
-  cash: 432.90
-  apns_token: '123nfhds'
-
-two:
-  cash: 1738.78
-  apns_token: 'fdbsj12123'

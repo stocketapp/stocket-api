@@ -19,7 +19,7 @@ class Trade < ApplicationRecord
     Share.create!(share) do |s|
       user = User.find_by id: self.user_id
       new_value = user[:cash] - self.total
-      
+
       User.update(self.user_id, cash: new_value)
     end
   end

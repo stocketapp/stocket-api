@@ -4,8 +4,8 @@ class CreateTrades < ActiveRecord::Migration[6.0]
       t.belongs_to :user
       t.string :symbol
       t.integer :quantity
-      t.decimal :price, precision: 2
-      t.decimal :total, precision: 2
+      t.decimal :price, precision: 10, scale: 2
+      t.decimal :total, precision: 10, scale: 2
       t.string :order_type
 
       t.timestamps

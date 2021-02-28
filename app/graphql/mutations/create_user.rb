@@ -10,9 +10,8 @@ module Mutations
       return { success: false, message: 'User already exists' } if user_exists?(user)
 
       created_user = create_user(user)
-      user_info = create_user_info(created_user&.[](:id))
 
-      return { success: false, message: 'Could not create user' } unless user && user_info
+      return { success: false, message: 'Could not create user' } unless user
 
       { success: true, message: 'User created', user: created_user }
     end
@@ -24,13 +23,6 @@ module Mutations
         uid: user&.[](:uid),
         email: user&.[](:email),
         displayName: user&.[](:display_name)
-      )
-    end
-
-    def create_user_info(id)
-      UserInfo.create!(
-        cash: 20_000,
-        user_id: id
       )
     end
 

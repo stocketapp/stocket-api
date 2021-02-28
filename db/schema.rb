@@ -16,9 +16,9 @@ ActiveRecord::Schema.define(version: 2021_02_28_010644) do
   enable_extension "plpgsql"
 
   create_table "balance_histories", force: :cascade do |t|
-    t.decimal "value", precision: 2
-    t.decimal "change", precision: 2
-    t.decimal "change_pct", precision: 2
+    t.decimal "value", precision: 10, scale: 2
+    t.decimal "change", precision: 10, scale: 2
+    t.decimal "change_pct", precision: 10, scale: 2
     t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -28,10 +28,10 @@ ActiveRecord::Schema.define(version: 2021_02_28_010644) do
   create_table "shares", force: :cascade do |t|
     t.bigint "user_id"
     t.string "symbol"
-    t.decimal "price", precision: 2
+    t.decimal "price", precision: 10, scale: 2
     t.integer "size"
     t.string "trade_reference_id"
-    t.decimal "purchase_value", precision: 2
+    t.decimal "purchase_value", precision: 10, scale: 2
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id"], name: "index_shares_on_user_id"
@@ -41,8 +41,8 @@ ActiveRecord::Schema.define(version: 2021_02_28_010644) do
     t.bigint "user_id"
     t.string "symbol"
     t.integer "quantity"
-    t.decimal "price", precision: 2
-    t.decimal "total", precision: 2
+    t.decimal "price", precision: 10, scale: 2
+    t.decimal "total", precision: 10, scale: 2
     t.string "order_type"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -56,7 +56,7 @@ ActiveRecord::Schema.define(version: 2021_02_28_010644) do
     t.string "displayName"
     t.decimal "cash"
     t.decimal "apns_token"
-    t.decimal "portfolio_value", precision: 2
+    t.decimal "portfolio_value", precision: 10, scale: 2
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
