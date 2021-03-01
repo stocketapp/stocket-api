@@ -1,5 +1,4 @@
 FirebaseIdToken.configure do |config|
-  is_dev = Rails.env.development?
   password = ENV['REDIS_CACHE_PASSWORD']
   host = ENV['REDIS_CACHE_HOST']
   port = ENV['REDIS_CACHE_PORT']
