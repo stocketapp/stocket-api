@@ -9,7 +9,7 @@ module Types
 
     def portfolio_value
       user = User.find_by id: object[:id]
-      user.calculate_portfolio_value(Share.where(user_id: user.id))
+      user.calculate_portfolio_value
     end
   end
 end
