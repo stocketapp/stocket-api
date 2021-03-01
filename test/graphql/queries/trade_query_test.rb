@@ -1,6 +1,6 @@
 require 'test_helper'
 
-module Mutations
+module Queries
   class TradesQueryTest < ActionDispatch::IntegrationTest
     query_string = <<-GRAPHQL
       query {
