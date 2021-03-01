@@ -1,4 +1,5 @@
 module Types
+  # PositionType
   class PositionType < Types::BaseObject
     field :symbol, String, null: false
     field :total_value, Float, null: false
@@ -38,10 +39,11 @@ module Types
     end
 
     private
+
     def diff(a, b)
       a - b.abs
     end
-    
+
     # Calculates the total value based on the price passed
     def calc_value(price)
       print_f value: calc_shares_qtty * price
@@ -54,12 +56,12 @@ module Types
 
     # Returns the amount of shares owned
     def calc_shares_qtty
-      object[:shares].map { |el| el.size }.sum(0)
+      object[:shares].map(&:size).sum(0)
     end
 
     # Returns number formatted with two digits after decimal point
     def print_f(value:)
-      (sprintf '%.2f', value).to_f
+      (format '%.2f', value).to_f
     end
   end
 end
