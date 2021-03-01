@@ -23,7 +23,7 @@ module Types
     end
 
     def quote(symbol:)
-      Watchlist.find_by(symbol: symbol, user_id: context[:current_user][:uid]).iex_quote
+      Watchlist.find_by!(symbol: symbol, user_id: context[:current_user][:uid]).iex_quote
     end
 
     def position(symbol:)
