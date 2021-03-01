@@ -13,7 +13,7 @@ module Queries
 
     test 'Can get the portfolio value' do
       context = { current_user: { uid: '123' } }
-      query = StocketApiSchema.execute(query_string, { variables: nil, context: context })
+      query = StocketApiSchema.execute(query_string, variables: nil, context: context)
 
       assert_not query['data']['user']['portfolioValue'].nil?
     end

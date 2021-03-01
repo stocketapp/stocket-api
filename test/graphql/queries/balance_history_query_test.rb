@@ -1,6 +1,6 @@
 require 'minitest/autorun'
 
-module Queries
+module Mutations
   class BalanceHistoryQueryTest < ActionDispatch::IntegrationTest
     query_string = <<-GRAPHQL
         query {
@@ -13,7 +13,7 @@ module Queries
     context = { current_user: { id: 1, uid: '123' } }
 
     test 'Can get a user balance history' do
-      query = StocketApiSchema.execute(query_string, { variables: nil, context: context })
+      query = StocketApiSchema.execute(query_string, variables: nil, context: context)
 
       assert_not query['data']['balanceHistory'].empty?
     end

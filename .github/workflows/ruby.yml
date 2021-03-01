@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        ruby-version: ['2.7.2']
+        ruby-version: ['3.0.0']
     services:
       postgres:
         image: postgres:13
@@ -51,7 +51,7 @@ jobs:
     needs: build
     strategy:
       matrix:
-        ruby-version: ['2.7.2']
+        ruby-version: ['3.0.0']
 
     services:
       postgres:
@@ -84,7 +84,7 @@ jobs:
   #   needs: build
   #   strategy:
   #     matrix:
-  #       ruby-version: ['2.7.2']
+  #       ruby-version: ['3.0.0']
   #   steps:
   #     - uses: actions/checkout@v2
   #     - run: git fetch origin main --depth=1
@@ -101,7 +101,7 @@ jobs:
     needs: setup
     strategy:
       matrix:
-        ruby-version: ['2.7.2']
+        ruby-version: ['3.0.0']
     services:
       postgres:
         image: postgres:13
