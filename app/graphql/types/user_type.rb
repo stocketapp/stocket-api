@@ -8,32 +8,10 @@ module Types
     field :portfolio_value, Float, null: false
 
     def portfolio_value
-      positions = Share.where user_id: context[:current_user][:id]
-      portfolio = create_portfolio(positions)
-      calculate_portfolio_value(portfolio)
-    end
-
-    private
-
-    # @param [ActiveRecord::Relation<Share>] positions
-    # @return [Hash]
-    def create_portfolio(positions)
-      new_obj = {}
-      positions.each do |p|
-        p.each_pair { |_, v| new_obj.key?(v) ? new_obj[v] += p.size : new_obj[p.symbol] = p.size }
-      end
-      new_obj
-    end
-
-    # @param [Hash] portfolio
-    # @return [Array]
-    def calculate_portfolio_value(portfolio)
-      new_arr = []
-      portfolio.each_pair do |k, v|
-        share = Share.iex_price(k)
-        new_arr.push(share * v)
-      end
-      new_arr
+      user = User.find_by id: context[:current_user][:id]
+      positions = Share.where user_id: user.id
+      portfolio = user.create_portfolio(positions)
+      user.calculate_portfolio_value(portfolio)
     end
   end
 end
