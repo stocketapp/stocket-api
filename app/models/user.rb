@@ -27,7 +27,7 @@ class User < ApplicationRecord
   def create_portfolio(positions)
     new_obj = {}
     positions.each do |p|
-      p.each_pair { |_, v| new_obj.key?(v) ? new_obj[v] += p.size : new_obj[p.symbol] = p.size }
+      new_obj.key?(p.symbol) ? new_obj[p.symbol] += p.size : new_obj[p.symbol] = p.size
     end
     new_obj
   end

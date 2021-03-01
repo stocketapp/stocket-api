@@ -8,10 +8,8 @@ module Types
     field :portfolio_value, Float, null: false
 
     def portfolio_value
-      user = User.find_by id: context[:current_user][:id]
-      positions = Share.where user_id: user.id
-      portfolio = user.create_portfolio(positions)
-      user.calculate_portfolio_value(portfolio)
+      user = User.find_by id: object[:id]
+      user.calculate_portfolio_value(Share.where(user_id: user.id))
     end
   end
 end
