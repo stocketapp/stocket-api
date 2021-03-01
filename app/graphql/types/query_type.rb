@@ -4,21 +4,22 @@ require 'json'
 module Types
   # QueryType
   class QueryType < Types::BaseObject
-    field :user, Types::UserType, null: false, resolver_method: :fetch_user
-    field :watchlist, Types::WatchlistQuotesType, null: true, resolver_method: :fetch_watchlist
+    field :user, Types::UserType, null: false
+    field :watchlist, Types::WatchlistQuotesType, null: true
     field :quote, Types::IexQuoteType, null: false do
       argument :symbol, String, required: true
     end
-    field :position, Types::PositionType, null: false, resolver_method: :position do
+    field :position, Types::PositionType, null: false do
       argument :symbol, String, required: true
     end
     field :trades, [Types::TradeType], null: false
+    field :balance_history, [Types::BalanceHistoryType], null: false, resolver_method: :balance_history
 
-    def fetch_user
+    def user
       User.find_by! uid: context[:current_user][:uid]
     end
 
-    def fetch_watchlist
+    def watchlist
       Watchlist.watchlist_prices(context[:current_user][:id])
     end
 
@@ -41,6 +42,13 @@ module Types
 
     def trades
       Trade.where user_id: context[:current_user][:id]
+    end
+
+    def balance_history
+      hist = BalanceHistory.where user_id: context[:current_user][:id]
+
+      puts hist[0]
+      hist
     end
   end
 end

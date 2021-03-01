@@ -4,10 +4,22 @@ one:
   value: 1.5
   change: 1.5
   change_pct: 1.5
-  user: one
+  user_id: 1
 
 two:
   value: 1.5
   change: 1.5
   change_pct: 1.5
-  user: two
+  user_id: 1
+
+three:
+  value: 1.5
+  change: 1.5
+  change_pct: 1.5
+  user_id: 2
+
+four:
+  value: 1.5
+  change: 1.5
+  change_pct: 1.5
+  user_id: 2
