@@ -4,6 +4,6 @@ every 1.hour do
   rake 'firebase:certificates:force_request'
 end
 
-every :day, at: '4:35pm', by_timezone: 'Eastern Time (US & Canada)' do
+every '15 16 * * 1-5', by_timezone: 'Eastern Time (US & Canada)' do
   rake 'balance_history:update_users'
 end
