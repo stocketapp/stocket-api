@@ -29,3 +29,5 @@
 dump.rdb
 .DS_Store
 .idea
+/coverage/.last_run.json
+/coverage/.resultset.json.lock

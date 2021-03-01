@@ -8,11 +8,10 @@ class User < ApplicationRecord
   validates :email, presence: true, uniqueness: true
   validates :uid, presence: true, uniqueness: true
 
-  # @param [ActiveRecord::Relation<Share>] positions
   # @return [Float]
-  def calculate_portfolio_value(positions)
+  def calculate_portfolio_value
     new_arr = []
-    portfolio = create_portfolio(positions)
+    portfolio = create_portfolio(Share.where(user_id: id))
     portfolio.each_pair do |k, v|
       share = Share.iex_price(k)
       new_arr.push(share * v)
