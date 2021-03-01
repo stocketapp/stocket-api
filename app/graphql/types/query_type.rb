@@ -45,10 +45,7 @@ module Types
     end
 
     def balance_history
-      hist = BalanceHistory.where user_id: context[:current_user][:id]
-
-      puts hist[0]
-      hist
+      BalanceHistory.where user_id: context[:current_user][:id]
     end
   end
 end
