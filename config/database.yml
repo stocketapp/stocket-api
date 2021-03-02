@@ -85,9 +85,9 @@ test:
 
   staging:
     url: <%= ENV['DATABASE_STAGING_URL'] %>
-  #
+
   production:
     <<: *default
     database: stocket_api_production
-    username: postgres
+    username: stocket_api
     password: <%= ENV['STOCKET_API_DATABASE_PASSWORD'] %>
