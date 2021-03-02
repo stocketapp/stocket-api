@@ -46,7 +46,7 @@ jobs:
         run: bundle exec rake db:create
 
   setup:
-    name: Setup
+    name: Run Test
     runs-on: ubuntu-latest
     needs: build
     strategy:
