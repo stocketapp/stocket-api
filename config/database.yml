@@ -80,14 +80,14 @@ test:
   #
   # You can use this database configuration with:
   #
-  production:
-    url: <%= ENV['DATABASE_URL'] %>
+  # production:
+  #   url: <%= ENV['DATABASE_URL'] %>
 
   staging:
     url: <%= ENV['DATABASE_STAGING_URL'] %>
-#
-# production:
-#   <<: *default
-#   database: stocket_api_production
-#   username: stocket_api
-#   password: <%= ENV['STOCKET_API_DATABASE_PASSWORD'] %>
+  #
+  production:
+    <<: *default
+    database: stocket_api_production
+    username: postgres
+    password: <%= ENV['STOCKET_API_DATABASE_PASSWORD'] %>
