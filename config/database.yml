@@ -19,6 +19,5 @@ test:
   encoding: unicode
   host: localhost
   password: password
-  pool: '<%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>'
-  url: 'postgresql://localhost:5434'
   username: postgres
+  pool: '<%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>'
