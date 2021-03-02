@@ -29,12 +29,10 @@ class Watchlist < ApplicationRecord
     item.destroy
   end
 
-  private
-
   # Returns an array of symbol strings: ['AAPL', 'AMZN', 'MSFT']
   # @param [Array] watchlist
   # @return [Array]
-  def symbols_list(watchlist)
+  def self.symbols_list(watchlist)
     watchlist.map(&:symbol)
   end
 end
