@@ -1,26 +1,31 @@
-default: &default
+---
+default:
   adapter: postgresql
   encoding: unicode
   host: localhost
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  # username: postgres
-  # password: password
-
+  pool: '<%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>'
 development:
-  <<: *default
+  adapter: postgresql
   database: stocket_api_development
-
-test:
-  <<: *default
-  database: stocket_api_test
-  username: postgres
-  password: password
-
-staging:
-  url: <%= ENV['DATABASE_STAGING_URL'] %>
-
+  encoding: unicode
+  host: localhost
+  pool: '<%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>'
 production:
-  <<: *default
+  adapter: postgresql
   database: stocket_api_production
+  encoding: unicode
+  host: 207.246.91.135
+  port: 5433
+  password: "<%= ENV['STOCKET_API_DATABASE_PASSWORD'] %>"
+  pool: '<%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>'
   username: postgres
-  password: <%= ENV['STOCKET_API_DATABASE_PASSWORD'] %>
+staging:
+  url: "<%= ENV['DATABASE_STAGING_URL'] %>"
+test:
+  adapter: postgresql
+  database: stocket_api_test
+  encoding: unicode
+  host: localhost
+  password: password
+  pool: '<%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>'
+  username: postgres
