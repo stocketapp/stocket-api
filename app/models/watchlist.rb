@@ -1,7 +1,7 @@
 # Watchlist model
 class Watchlist < ApplicationRecord
   belongs_to :user
-  validates :symbol, presence: true, uniqueness: true
+  validates :symbol, presence: true, uniqueness: { scope: :user_id }
 
   # Returns an Hash with `quotes` and `logos` for each symbol that exists in the user's Watchlist
   # @param [String] user_id
