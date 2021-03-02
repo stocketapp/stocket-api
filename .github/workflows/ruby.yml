@@ -14,91 +14,9 @@ on:
     branches: [main]
 
 jobs:
-  build:
-    name: Build
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        ruby-version: ['3.0.0']
-    services:
-      postgres:
-        image: postgres:13
-        env:
-          POSTGRES_DB: stocket_api_test
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: password
-        ports: ['5432:5432']
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-    steps:
-      - uses: actions/checkout@v2
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@473e4d8fe5dd94ee328fdfca9f8c9c7afc9dae5e
-        with:
-          ruby-version: ${{ matrix.ruby-version }}
-          bundler-cache: true # runs 'bundle install' and caches installed gems automatically
-      - name: Set up PostgreSQL
-        env:
-          RAILS_ENV: test
-        run: bundle exec rake db:create
-
-  setup:
-    name: Run Test
-    runs-on: ubuntu-latest
-    needs: build
-    strategy:
-      matrix:
-        ruby-version: ['3.0.0']
-
-    services:
-      postgres:
-        image: postgres:13
-        env:
-          POSTGRES_DB: stocket_api_test
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: password
-        ports: ['5432:5432']
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-    steps:
-      - uses: actions/checkout@v2
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@473e4d8fe5dd94ee328fdfca9f8c9c7afc9dae5e
-        with:
-          ruby-version: ${{ matrix.ruby-version }}
-          bundler-cache: true # runs 'bundle install' and caches installed gems automatically
-      - name: Setup test database
-        env:
-          RAILS_ENV: test
-        run: bundle exec rake db:migrate
-
-  # pronto:
-  #   name: Pronto
-  #   runs-on: ubuntu-latest
-  #   needs: build
-  #   strategy:
-  #     matrix:
-  #       ruby-version: ['3.0.0']
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #     - run: git fetch origin main --depth=1
-  #     - uses: adwerx/pronto-ruby@v2.9
-  #       env:
-  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  #       with:
-  #         runners: rubocop
-  #         target: origin/main
-
   test:
     name: Test
     runs-on: ubuntu-latest
-    needs: setup
     strategy:
       matrix:
         ruby-version: ['3.0.0']
@@ -115,11 +33,12 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
-
     steps:
       - uses: actions/checkout@v2
       - name: Set up Ruby
-        uses: ruby/setup-ruby@473e4d8fe5dd94ee328fdfca9f8c9c7afc9dae5e
+        uses: ruby/setup-ruby@v1
+        env:
+          ImageOS: ubuntu18
         with:
           ruby-version: ${{ matrix.ruby-version }}
           bundler-cache: true # runs 'bundle install' and caches installed gems automatically
