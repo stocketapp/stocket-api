@@ -19,6 +19,7 @@ production:
   password: "<%= ENV['STOCKET_API_DATABASE_PASSWORD'] %>"
   pool: '<%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>'
   username: postgres
+  url: postgresql://207.246.91.135:5433
 staging:
   url: "<%= ENV['DATABASE_STAGING_URL'] %>"
 test:
