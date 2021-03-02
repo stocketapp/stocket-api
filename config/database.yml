@@ -1,32 +1,35 @@
----
-default:
+# PostgreSQL. Versions 9.3 and up are supported.
+#
+# Install the pg driver:
+#   gem install pg
+# On macOS with Homebrew:
+#   gem install pg -- --with-pg-config=/usr/local/bin/pg_config
+# On macOS with MacPorts:
+#   gem install pg -- --with-pg-config=/opt/local/lib/postgresql84/bin/pg_config
+# On Windows:
+#   gem install pg
+#       Choose the win32 build.
+#       Install PostgreSQL and put its /bin directory on your path.
+#
+# Configure Using Gemfile
+# gem 'pg'
+#
+default: &default
   adapter: postgresql
   encoding: unicode
   host: localhost
-  pool: '<%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>'
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
 development:
-  adapter: postgresql
+  <<: *default
   database: stocket_api_development
-  encoding: unicode
-  host: localhost
-  pool: '<%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>'
-production:
-  adapter: postgresql
-  database: stocket_api_production
-  encoding: unicode
-  host: 207.246.91.135
-  port: 5433
-  password: "<%= ENV['STOCKET_API_DATABASE_PASSWORD'] %>"
-  pool: '<%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>'
-  username: postgres
-  url: postgresql://207.246.91.135:5433
-staging:
-  url: "<%= ENV['DATABASE_STAGING_URL'] %>"
 test:
-  adapter: postgresql
+  <<: *default
   database: stocket_api_test
-  encoding: unicode
-  host: localhost
-  password: password
-  pool: '<%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>'
   username: postgres
+  password: password
+production:
+  <<: *default
+  database: stocket_api_production
+  username: postgres
+  password: <%= ENV['STOCKET_API_DATABASE_PASSWORD'] %>
+  url: postgresql://207.246.91.135:5433
