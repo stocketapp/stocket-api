@@ -89,5 +89,5 @@ test:
   production:
     <<: *default
     database: stocket_api_production
-    username: stocket_api
+    username: postgres
     password: <%= ENV['STOCKET_API_DATABASE_PASSWORD'] %>
