@@ -5,11 +5,12 @@ namespace :balance_history do
       portfolio_val = u.calculate_portfolio_value
       hist = BalanceHistory.where(user_id: u.id).map(&:value).last
       change = (portfolio_val - hist).abs
+      change_pct = ((format '%.2f', ((change / portfolio_val) || 0.0) * 100)).to_f
       BalanceHistory.create!(
         user_id: u.id,
         value: portfolio_val,
         change: change,
-        change_pct: (format '%.2f', (change / portfolio_val) * 100).to_f
+        change_pct: change_pct
       )
     end
   end
