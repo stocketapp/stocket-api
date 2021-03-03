@@ -17,9 +17,9 @@ module Mutations
       {
         symbol: item['symbol'],
         change: item['change'],
-        change_percent: item['change_percent'],
-        company_name: item['company_name'],
-        latest_price: item['latest_price'],
+        changePercent: item['change_percent'],
+        companyName: item['company_name'],
+        latestPrice: item['latest_price'],
         id: item[:id],
         logo: item['logo']
       }
