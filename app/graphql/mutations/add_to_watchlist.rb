@@ -15,13 +15,13 @@ module Mutations
 
     def create_watchlist_item(item)
       {
-        'symbol' => item['symbol'],
-        'change' => item['change'],
-        'change_percent' => item['change_percent'],
-        'company_name' => item['company_name'],
-        'latest_price' => item['latest_price'],
-        'id' => item[:id],
-        'logo' => item['logo']
+        symbol: item['symbol'],
+        change: item['change'],
+        change_percent: item['change_percent'],
+        company_name: item['company_name'],
+        latest_price: item['latest_price'],
+        id: item[:id],
+        logo: item['logo']
       }
     end
   end

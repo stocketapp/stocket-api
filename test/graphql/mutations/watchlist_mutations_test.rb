@@ -6,6 +6,7 @@ module Mutations
       mutation AddToWatchlist($input: AddToWatchlistInput!) {
         addToWatchlist(input: $input) {
           symbol
+          changePercent
           id
         }
       }
