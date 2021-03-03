@@ -2,7 +2,7 @@ require 'test_helper'
 
 module Mutations
   class WatchlistMutationsTest < ActionDispatch::IntegrationTest
-    addToWatchlistMutation = <<-GRAPHQL
+    watchlist_mutation = <<-GRAPHQL
       mutation AddToWatchlist($input: AddToWatchlistInput!) {
         addToWatchlist(input: $input) {
           symbol
@@ -13,17 +13,17 @@ module Mutations
     test 'Add symbol to watchlist' do
       input = { symbol: 'MSFT' }
       context = { current_user: { id: 1 }}
-      addedSymbol = StocketApiSchema.execute(addToWatchlistMutation, variables: { input: input }, context: context)
+      added_symbol = StocketApiSchema.execute(watchlist_mutation, variables: { input: input}, context: context)
 
-      assert !addedSymbol['data']['addToWatchlist'].nil?
+      assert_not added_symbol['data']['addToWatchlist']['id'].nil?
     end
 
     test 'Error when input is of wrong type' do
       input = { symbol: 1 }
       context = { current_user: { id: 2 }}
-      addedSymbol = StocketApiSchema.execute(addToWatchlistMutation, variables: { input: input }, context: context)
+      added_symbol = StocketApiSchema.execute(watchlist_mutation, variables: { input: input }, context: context)
 
-      assert !addedSymbol['errors'].nil?
+      assert !added_symbol['errors'].nil?
     end
 
     test 'Successfully remove symbol' do
@@ -36,9 +36,9 @@ module Mutations
           }
         }
       GRAPHQL
-      removedSymbol = StocketApiSchema.execute(mutation, variables: { input: input }, context: context)
+      removed_symbol = StocketApiSchema.execute(mutation, variables: { input: input }, context: context)
 
-      assert !removedSymbol['data']['removeFromWatchlist'].nil?
+      assert !removed_symbol['data']['removeFromWatchlist'].nil?
     end
   end
 end

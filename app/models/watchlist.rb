@@ -30,7 +30,7 @@ class Watchlist < ApplicationRecord
   end
 
   # Returns an array of symbol strings: ['AAPL', 'AMZN', 'MSFT']
-  # @param [Array] watchlist
+  # @param [ActiveRecord::Relation<Watchlist>] watchlist
   # @return [Array]
   def self.symbols_list(watchlist)
     watchlist.map(&:symbol)

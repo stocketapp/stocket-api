@@ -5,7 +5,7 @@ module Types
   # QueryType
   class QueryType < Types::BaseObject
     field :user, Types::UserType, null: false
-    field :watchlist, Types::WatchlistQuotesType, null: true
+    field :watchlist, Types::WatchlistType, null: true
     field :quote, Types::IexQuoteType, null: false do
       argument :symbol, String, required: true
     end

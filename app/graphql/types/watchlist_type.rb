@@ -1,6 +1,6 @@
 module Types
   class WatchlistType < Types::BaseObject
-    field :symbol, String, null: false
-    field :name, String, null: false
+    field :symbols, [String], null: true
+    field :quotes, [Types::WatchlistIexQuoteType], null: true
   end
 end
