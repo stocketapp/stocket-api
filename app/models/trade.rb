@@ -3,7 +3,7 @@ class Trade < ApplicationRecord
   belongs_to :user
   validates :symbol, presence: true
   validates :price, presence: true
-  validates :quantity, presence: true
+  validates :size, presence: true
   validates :order_type, presence: true
   validates :reference_id, presence: true, uniqueness: true
   validates :total, presence: true
@@ -20,10 +20,10 @@ class Trade < ApplicationRecord
   def sell
     share = retrieve_share
 
-    if share.size <= quantity
+    if share.size <= size
       share.destroy!
     else
-      share.update(size: share[:size] - quantity)
+      share.update(size: share[:size] - size)
       User.update(user[:id], cash: user[:cash] + total)
     end
   end
@@ -36,7 +36,7 @@ class Trade < ApplicationRecord
       symbol: symbol,
       price: price,
       trade_reference_id: reference_id,
-      size: quantity,
+      size: size,
       purchase_value: total
     }
   end

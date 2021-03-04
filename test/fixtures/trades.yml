@@ -2,7 +2,7 @@ one:
   id: 1
   symbol: 'AMZN'
   price: 123.76
-  quantity: 5
+  size: 5
   order_type: 'BUY'
   user_id: 1
   reference_id: '123'
@@ -13,7 +13,7 @@ two:
   id: 2
   symbol: 'AMZN'
   price: 134.69
-  quantity: 3
+  size: 3
   order_type: 'BUY'
   user_id: 1
   reference_id: '456'

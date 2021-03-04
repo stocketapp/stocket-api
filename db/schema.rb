@@ -26,7 +26,7 @@ ActiveRecord::Schema.define(version: 2021_02_28_010644) do
   end
 
   create_table "shares", force: :cascade do |t|
-    t.bigint "user_id"
+    t.bigint "user_id", null: false
     t.string "symbol"
     t.decimal "price", precision: 10, scale: 2
     t.integer "size"
@@ -38,9 +38,9 @@ ActiveRecord::Schema.define(version: 2021_02_28_010644) do
   end
 
   create_table "trades", force: :cascade do |t|
-    t.bigint "user_id"
+    t.bigint "user_id", null: false
     t.string "symbol"
-    t.integer "quantity"
+    t.integer "size"
     t.decimal "price", precision: 10, scale: 2
     t.decimal "total", precision: 10, scale: 2
     t.string "order_type"
@@ -63,11 +63,14 @@ ActiveRecord::Schema.define(version: 2021_02_28_010644) do
 
   create_table "watchlists", force: :cascade do |t|
     t.string "symbol"
-    t.bigint "user_id"
+    t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id"], name: "index_watchlists_on_user_id"
   end
 
   add_foreign_key "balance_histories", "users"
+  add_foreign_key "shares", "users"
+  add_foreign_key "trades", "users"
+  add_foreign_key "watchlists", "users"
 end

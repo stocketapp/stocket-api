@@ -16,7 +16,6 @@ module Mutations
       context = { current_user: { id: 1 }}
       added_symbol = StocketApiSchema.execute(watchlist_mutation, variables: { input: input}, context: context)
 
-      puts added_symbol['data']
       assert_not added_symbol['data']['addToWatchlist']['id'].nil?
     end
 

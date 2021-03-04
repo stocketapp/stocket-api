@@ -18,19 +18,19 @@ module Mutations
     buy_input = {
       symbol: 'AAPL',
       price: 123.95,
-      quantity: 4,
+      size: 4,
       orderType: 'BUY'
     }
     wrong_input = {
       symbol: 'AAPL',
       price: '123.95',
-      quantity: 2,
+      size: 2,
       orderType: 'BUY'
     }
     sell_input = {
       symbol: 'AAPL',
       price: 124.95,
-      quantity: 2,
+      size: 2,
       orderType: 'SELL'
     }
 
