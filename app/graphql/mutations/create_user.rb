@@ -22,7 +22,8 @@ module Mutations
       User.create!(
         uid: user&.[](:uid),
         email: user&.[](:email),
-        displayName: user&.[](:display_name)
+        displayName: user&.[](:display_name),
+        cash: 20_000.00
       )
     end
 

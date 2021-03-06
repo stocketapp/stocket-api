@@ -13,64 +13,64 @@
 ActiveRecord::Schema.define(version: 2021_02_28_010644) do
 
   # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
+  enable_extension 'plpgsql'
 
-  create_table "balance_histories", force: :cascade do |t|
-    t.decimal "value", precision: 10, scale: 2
-    t.decimal "change", precision: 10, scale: 2
-    t.decimal "change_pct", precision: 10, scale: 2
-    t.bigint "user_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["user_id"], name: "index_balance_histories_on_user_id"
+  create_table 'balance_histories', force: :cascade do |t|
+    t.decimal 'value', precision: 10, scale: 2
+    t.decimal 'change', precision: 10, scale: 2
+    t.decimal 'change_pct', precision: 10, scale: 2
+    t.bigint 'user_id', null: false
+    t.datetime 'created_at', precision: 6, null: false
+    t.datetime 'updated_at', precision: 6, null: false
+    t.index ['user_id'], name: 'index_balance_histories_on_user_id'
   end
 
-  create_table "shares", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.string "symbol"
-    t.decimal "price", precision: 10, scale: 2
-    t.integer "size"
-    t.string "trade_reference_id"
-    t.decimal "purchase_value", precision: 10, scale: 2
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["user_id"], name: "index_shares_on_user_id"
+  create_table 'shares', force: :cascade do |t|
+    t.bigint 'user_id', null: false
+    t.string 'symbol'
+    t.decimal 'price', precision: 10, scale: 2
+    t.integer 'size'
+    t.string 'trade_reference_id'
+    t.decimal 'purchase_value', precision: 10, scale: 2
+    t.datetime 'created_at', precision: 6, null: false
+    t.datetime 'updated_at', precision: 6, null: false
+    t.index ['user_id'], name: 'index_shares_on_user_id'
   end
 
-  create_table "trades", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.string "symbol"
-    t.integer "size"
-    t.decimal "price", precision: 10, scale: 2
-    t.decimal "total", precision: 10, scale: 2
-    t.string "order_type"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.string "reference_id"
-    t.index ["user_id"], name: "index_trades_on_user_id"
+  create_table 'trades', force: :cascade do |t|
+    t.bigint 'user_id', null: false
+    t.string 'symbol'
+    t.integer 'size'
+    t.decimal 'price', precision: 10, scale: 2
+    t.decimal 'total', precision: 10, scale: 2
+    t.string 'order_type'
+    t.datetime 'created_at', precision: 6, null: false
+    t.datetime 'updated_at', precision: 6, null: false
+    t.string 'reference_id'
+    t.index ['user_id'], name: 'index_trades_on_user_id'
   end
 
-  create_table "users", force: :cascade do |t|
-    t.string "uid", null: false
-    t.string "email", null: false
-    t.string "displayName"
-    t.decimal "cash"
-    t.decimal "apns_token"
-    t.decimal "portfolio_value", precision: 10, scale: 2
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+  create_table 'users', force: :cascade do |t|
+    t.string 'uid', null: false
+    t.string 'email', null: false
+    t.string 'displayName'
+    t.decimal 'cash'
+    t.decimal 'apns_token'
+    t.decimal 'portfolio_value', precision: 10, scale: 2
+    t.datetime 'created_at', precision: 6, null: false
+    t.datetime 'updated_at', precision: 6, null: false
   end
 
-  create_table "watchlists", force: :cascade do |t|
-    t.string "symbol"
-    t.bigint "user_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["user_id"], name: "index_watchlists_on_user_id"
+  create_table 'watchlists', force: :cascade do |t|
+    t.string 'symbol'
+    t.bigint 'user_id', null: false
+    t.datetime 'created_at', precision: 6, null: false
+    t.datetime 'updated_at', precision: 6, null: false
+    t.index ['user_id'], name: 'index_watchlists_on_user_id'
   end
 
-  add_foreign_key "balance_histories", "users"
-  add_foreign_key "shares", "users"
-  add_foreign_key "trades", "users"
-  add_foreign_key "watchlists", "users"
+  add_foreign_key 'balance_histories', 'users'
+  add_foreign_key 'shares', 'users'
+  add_foreign_key 'trades', 'users'
+  add_foreign_key 'watchlists', 'users'
 end
