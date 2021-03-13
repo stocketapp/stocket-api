@@ -26,7 +26,7 @@ class Portfolio
     new_arr = []
     portfolio = create_portfolio(shares)
     portfolio.each_pair { |k, v| new_arr.push(Share.iex_price(k) * v) }
-    (format '%.2f', new_arr.sum(0.00)).to_f
+    (format '%.2f', new_arr.sum).to_f
   end
 
   # @param [ActiveRecord::Relation<Share>] positions

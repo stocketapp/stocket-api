@@ -16,7 +16,7 @@ class User < ApplicationRecord
       share = Share.iex_price(k)
       new_arr.push(share * v)
     end
-    (format '%.2f', new_arr.sum(0.00)).to_f
+    (format '%.2f', new_arr.sum).to_f
   end
 
   private
