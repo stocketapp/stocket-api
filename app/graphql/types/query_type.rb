@@ -14,7 +14,7 @@ module Types
     end
     field :trades, [Types::TradeType], null: false
     field :balance_history, [Types::BalanceHistoryType], null: false, resolver_method: :balance_history
-    field :portfolio_value, Types::PortfolioType, null: false
+    field :portfolio, Types::PortfolioType, null: false
 
     def user
       User.find_by! uid: context[:current_user][:uid]
@@ -49,7 +49,7 @@ module Types
       BalanceHistory.where user_id: context[:current_user][:id]
     end
 
-    def portfolio_value
+    def portfolio
       portfolio = Portfolio.new(user_id: context[:current_user][:id])
       { value: portfolio.value, change: portfolio.change, change_pct: portfolio.change_pct }
     end
