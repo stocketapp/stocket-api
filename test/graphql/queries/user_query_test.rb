@@ -5,7 +5,7 @@ module Queries
     query_string = <<-GRAPHQL
       query {
         user {
-          portfolio
+          portfolioValue
         }
       }
     GRAPHQL
@@ -15,7 +15,7 @@ module Queries
       context = { current_user: { uid: '123' } }
       query = StocketApiSchema.execute(query_string, variables: nil, context: context)
 
-      assert_not query['data']['user']['portfolio'].nil?
+      assert_not query['data']['user']['portfolioValue'].nil?
     end
   end
 end
