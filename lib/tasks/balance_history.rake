@@ -4,7 +4,7 @@ namespace :balance_history do
     User.all.map do |u|
       portfolio_val = u.calculate_portfolio_value
       hist = BalanceHistory.where(user_id: u.id).map(&:value).last
-      change = (portfolio_val - hist).abs
+      change = (portfolio_val - (hist.nil? ? 0.00 : hist) ).abs
       change_pct = ((format '%.2f', ((change / portfolio_val) || 0.0) * 100)).to_f
       BalanceHistory.create!(
         user_id: u.id,
