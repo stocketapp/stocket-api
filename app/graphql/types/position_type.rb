@@ -49,7 +49,7 @@ module Types
       print_f value: calc_shares_qtty * price
     end
 
-    # Returns the difference of the shares value between the preevious day and today
+    # Returns the difference of the shares value between the previous day and today
     def calc_change
       print_f value: diff(calc_value(object[:latest_price]), calc_value(object[:yesterday_price]))
     end
