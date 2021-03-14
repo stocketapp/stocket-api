@@ -49,9 +49,12 @@ module Types
       print_f value: calc_shares_qtty * price
     end
 
-    # Returns the difference of the shares value between the previous day and today
+    # Returns the difference of the shares value between the original value at time of buying and current value
     def calc_change
-      print_f value: diff(calc_value(object[:latest_price]), calc_value(object[:yesterday_price]))
+      current_value = calc_value(object[:latest_price])
+      prev_value = object[:shares].map(&:purchase_value).sum
+
+      print_f value: diff(current_value, prev_value)
     end
 
     # Returns the amount of shares owned

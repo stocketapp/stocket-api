@@ -15,6 +15,7 @@ module Types
     field :trades, [Types::TradeType], null: false
     field :balance_history, [Types::BalanceHistoryType], null: false, resolver_method: :balance_history
     field :portfolio, Types::PortfolioType, null: false
+    # field :shares, Types::Sha
 
     def user
       User.find_by! uid: context[:current_user][:uid]
@@ -31,13 +32,11 @@ module Types
     def position(symbol:)
       shares = Share.where symbol: symbol, user_id: context[:current_user][:id]
       latest_price = Share.iex_price(symbol)
-      yesterday_price = Share.iex_yesterday_price(symbol)
 
       {
         symbol: symbol,
         shares: shares,
         latest_price: latest_price,
-        yesterday_price: yesterday_price,
       }
     end
 
@@ -51,7 +50,7 @@ module Types
 
     def portfolio
       portfolio = Portfolio.new(user_id: context[:current_user][:id])
-      { value: portfolio.value, change: portfolio.change, change_pct: portfolio.change_pct }
+      { value: portfolio.value, change: portfolio.change, change_pct: portfolio.change_pct, positions: portfolio.positions }
     end
   end
 end

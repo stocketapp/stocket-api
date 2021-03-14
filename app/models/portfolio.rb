@@ -1,14 +1,14 @@
 # Create a portfolio value object
 class Portfolio
+  attr_reader :value
+
   def initialize(user_id:)
     @user = User.find_by id: user_id
     @shares = Share.where user_id: user_id
     @balance_history = BalanceHistory.where(user_id: user_id).order('id desc').limit(1)[0]
     @value = calculate_portfolio_value(@shares)
-  end
-
-  def value
-    @value
+    @shares_symbols = @shares.map(&:symbol)
+    @shares_val = @shares.map { |el| { el.symbol => el.purchase_value } }
   end
 
   def change
@@ -19,7 +19,36 @@ class Portfolio
     print_f value: (change / value) * 100
   end
 
+  def positions
+    quotes = Share.iex_batch_prices(@shares_symbols.join(','))
+    @shares_symbols.map do |sym|
+      shares = Share.where(user_id: @user.id, symbol: sym)
+      prev_value = shares.map(&:purchase_value).sum
+      current_value = calc_value(shares, quotes[sym]['price'])
+      p_change = calc_change(current_value, prev_value)
+      { symbol: sym, change: p_change, change_pct: calc_change_pct(p_change, current_value) }
+    end
+  end
+
   private
+
+  # Calculates the total value based on the price passed
+  # @param [ActiveRecord::Relation<Share>] shares
+  # @param [Float] price
+  def calc_value(shares, price)
+    print_f value: calc_shares_qtty(shares) * price
+  end
+
+  # Returns the difference between a share's original value at time of buying and current value
+  # @param [Float] current_value
+  # @param [Integer] prev_value
+  def calc_change(current_value, prev_value)
+    print_f value: diff(current_value, prev_value)
+  end
+
+  def calc_change_pct(p_change, p_value)
+    print_f value: (p_change / p_value) * 100
+  end
 
   # @return [Float]
   def calculate_portfolio_value(shares)
@@ -46,7 +75,8 @@ class Portfolio
     a - b.abs
   end
 
-  def calc_shares_qtty
-    @shares.map(&:size).sum(0)
+  def calc_shares_qtty(shares)
+    puts shares
+    shares.map(&:size).sum(0)
   end
 end

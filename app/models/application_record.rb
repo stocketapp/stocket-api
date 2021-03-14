@@ -20,6 +20,15 @@ class ApplicationRecord < ActiveRecord::Base
     )
   end
 
+  def self.iex_batch_prices(symbols)
+    iex_client.get(
+      'stock/market/batch',
+      symbols: symbols,
+      types: 'price',
+      token: ENV['IEX_CLOUD_SECRET']
+    )
+  end
+
   def iex_quote
     quote = @client.quote(symbol)
     logo = { 'logo' => "https://storage.googleapis.com/iex/api/logos/#{symbol}.png" }
