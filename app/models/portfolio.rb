@@ -26,7 +26,8 @@ class Portfolio
       prev_value = shares.map(&:purchase_value).sum
       current_value = calc_value(shares, quotes[sym]['price'])
       p_change = calc_change(current_value, prev_value)
-      { symbol: sym, change: p_change, change_pct: calc_change_pct(p_change, current_value) }
+      logo = "https://storage.googleapis.com/iex/api/logos/#{sym}.png"
+      { symbol: sym, change: p_change, change_pct: calc_change_pct(p_change, current_value), logo: logo }
     end
   end
 
