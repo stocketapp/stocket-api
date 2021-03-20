@@ -29,6 +29,14 @@ class ApplicationRecord < ActiveRecord::Base
     )
   end
 
+  def self.iex_chart(symbol, range = '1d', interval = 5)
+    iex_client.chart(symbol, range, chart_interval: interval)
+  end
+
+  def iex_chart
+    @client.chart(symbol, range)
+  end
+
   def iex_quote
     quote = @client.quote(symbol)
     logo = { 'logo' => "https://storage.googleapis.com/iex/api/logos/#{symbol}.png" }

@@ -6,16 +6,19 @@ module Types
   class QueryType < Types::BaseObject
     field :user, Types::UserType, null: false
     field :watchlist, Types::WatchlistType, null: true
+
+    field :trades, [Types::TradeType], null: false
+    field :balance_history, [Types::BalanceHistoryType], null: false, resolver_method: :balance_history
+    field :portfolio, Types::PortfolioType, null: false
     field :quote, Types::IexQuoteType, null: false do
       argument :symbol, String, required: true
     end
     field :position, Types::PositionType, null: false do
       argument :symbol, String, required: true
     end
-    field :trades, [Types::TradeType], null: false
-    field :balance_history, [Types::BalanceHistoryType], null: false, resolver_method: :balance_history
-    field :portfolio, Types::PortfolioType, null: false
-    # field :shares, Types::Sha
+    field :chart, [Types::IexChartType], null: false do
+      argument :symbol, String, required: true
+    end
 
     def user
       User.find_by! uid: context[:current_user][:uid]
@@ -51,6 +54,10 @@ module Types
     def portfolio
       portfolio = Portfolio.new(user_id: context[:current_user][:id])
       { value: portfolio.value, change: portfolio.change, change_pct: portfolio.change_pct, positions: portfolio.positions }
+    end
+
+    def chart(symbol:)
+      ApplicationRecord.iex_chart(symbol)
     end
   end
 end

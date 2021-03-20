@@ -20,4 +20,8 @@ module Types
     field :ytd_change, Float, null: true # price change percentage from start of year to previous close
     field :iex_volume, Integer, null: true
   end
+
+  class IexQuoteAndNews < Types::BaseObject
+    field :quote, Types::IexQuoteType, null: false
+  end
 end
