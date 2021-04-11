@@ -1,3 +1,4 @@
+# GraphqlController
 class GraphqlController < ApplicationController
   # If accessing from outside this domain, nullify the session
   # This allows for outside API access while preventing CSRF attacks,
@@ -10,10 +11,7 @@ class GraphqlController < ApplicationController
     operation_name = params[:operationName]
     token = request.env['HTTP_AUTHORIZATION']
     current_user = get_current_user(token)
-    context = {
-      current_user: current_user,
-      token: token
-    }
+    context = { current_user: current_user, token: token }
     result = StocketApiSchema.execute(query, variables: variables, context: context, operation_name: operation_name)
     render json: result
   rescue StandardError => e
@@ -25,29 +23,26 @@ class GraphqlController < ApplicationController
   private
 
   def get_current_user(token)
+    Rails.env.development? && { uid: 'Uy0YhDXetYWGxLFB2aF4aMdUPyB3' }
+
     result = FirebaseIdToken::Signature.verify(token)
     unless result
-      raise GraphQL::ExecutionError.new('The token used to authorize this request is invalid.', extensions: { 'code' => 'INVALID_TOKEN' })
+      raise GraphQL::ExecutionError.new(
+        'The token used to authorize this request is invalid.',
+        extensions: { 'code' => 'INVALID_TOKEN' }
+      )
     end
 
     uid = result['sub']
 
-    if params[:operationName] != 'CreateUser'
-      User.find_by uid: uid
-    else
-      { uid: uid }
-    end
+    params[:operationName] != 'CreateUser' ? User.find_by(uid: uid) : { uid: uid }
   end
 
   # Handle variables in form data, JSON body, or a blank value
   def prepare_variables(variables_param)
     case variables_param
     when String
-      if variables_param.present?
-        JSON.parse(variables_param) || {}
-      else
-        {}
-      end
+      variables_param.present? ? JSON.parse(variables_param) || {} : {}
     when Hash
       variables_param
     when ActionController::Parameters
