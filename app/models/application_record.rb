@@ -29,12 +29,14 @@ class ApplicationRecord < ActiveRecord::Base
     )
   end
 
-  def self.iex_chart(symbol, range = '1d', interval = 5)
-    iex_client.chart(symbol, range, chart_interval: interval)
+  def self.iex_chart(symbol, range = '1d')
+    # iex_client.chart(symbol, range, chart_interval: interval)
+    iex_client.historical_prices(symbol, { range: range })
   end
 
-  def iex_chart
-    @client.chart(symbol, range)
+  def iex_chart(symbol, range = '1d')
+    # @client.chart(symbol, range, chart_interval: interval)
+    @client.historical_prices(symbol, { range: range })
   end
 
   def iex_quote

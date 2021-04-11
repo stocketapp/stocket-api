@@ -7,10 +7,12 @@ module Types
     field :symbol, String, null: false
     field :volume, GraphQL::Types::BigInt, null: true
     field :market_change_over_time, GraphQL::Types::BigInt, null: true
-    field :change_over_time, Int, null: true
-    field :change, Float, null: true
-    field :change_percent, Float, null: true
     field :date, String, null: false
     field :label, String, null: false
+    field :change, Float, null: true
+    field :change_over_time, Float, null: true
+    field :change_over_time_s, String, null: true
+    field :change_percent, Float, null: true
+    field :change_percent_s, String, null: true
   end
 end

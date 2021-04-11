@@ -31,6 +31,8 @@ class Portfolio
     end
   end
 
+  # TODO: Add a value with total money invested
+
   private
 
   # Calculates the total value based on the price passed
@@ -55,6 +57,7 @@ class Portfolio
   def calculate_portfolio_value(shares)
     new_arr = []
     portfolio = create_portfolio(shares)
+    # TODO: calculate total value per symbol
     portfolio.each_pair { |k, v| new_arr.push(Share.iex_price(k) * v) }
     (format '%.2f', new_arr.sum).to_f
   end
