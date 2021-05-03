@@ -53,7 +53,12 @@ module Types
 
     def portfolio
       portfolio = Portfolio.new(user_id: context[:current_user][:id])
-      { value: portfolio.value, change: portfolio.change, change_pct: portfolio.change_pct, positions: portfolio.positions }
+      {
+        value: portfolio.value,
+        change: portfolio.change,
+        change_pct: portfolio.change_pct,
+        positions: portfolio.positions
+      }
     end
 
     def chart(symbol:)

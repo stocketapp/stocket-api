@@ -20,6 +20,14 @@ class Portfolio
   end
 
   def positions
+    return calc_positions unless @shares_symbols.empty?
+  end
+
+  # TODO: Add a value with total money invested
+
+  private
+
+  def calc_positions
     quotes = Share.iex_batch_prices(@shares_symbols.join(','))
     @shares_symbols.map do |sym|
       shares = Share.where(user_id: @user.id, symbol: sym)
@@ -30,10 +38,6 @@ class Portfolio
       { symbol: sym, change: p_change, change_pct: calc_change_pct(p_change, current_value), logo: logo }
     end
   end
-
-  # TODO: Add a value with total money invested
-
-  private
 
   # Calculates the total value based on the price passed
   # @param [ActiveRecord::Relation<Share>] shares
