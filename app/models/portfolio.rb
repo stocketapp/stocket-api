@@ -28,11 +28,11 @@ class Portfolio
   private
 
   def calc_positions
-    quotes = Share.iex_batch_prices(@shares_symbols.join(','))
+    quotes = Share.fetch_iex_batch_quote(@shares_symbols.join(','))
     @shares_symbols.map do |sym|
       shares = Share.where(user_id: @user.id, symbol: sym)
       prev_value = shares.map(&:purchase_value).sum
-      current_value = calc_value(shares, quotes[sym]['price'])
+      current_value = calc_value(shares, quotes[sym]['quote']['latestPrice'])
       p_change = calc_change(current_value, prev_value)
       logo = "https://storage.googleapis.com/iex/api/logos/#{sym}.png"
       { symbol: sym, change: p_change, change_pct: calc_change_pct(p_change, current_value), logo: logo }
