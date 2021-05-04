@@ -27,15 +27,20 @@ class Portfolio
 
   private
 
+  def calc_change_and_percentage(symbol, quotes)
+    shares = Share.where(user_id: @user.id, symbol: symbol)
+    prev_value = shares.map(&:purchase_value).sum
+    current_value = calc_value(shares, quotes[symbol]['quote']['latestPrice'])
+    { change: current_value, change_pct: calc_change(current_value, prev_value) }
+  end
+
   def calc_positions
     quotes = Share.fetch_iex_batch_quote(@shares_symbols.join(','))
     @shares_symbols.map do |sym|
-      shares = Share.where(user_id: @user.id, symbol: sym)
-      prev_value = shares.map(&:purchase_value).sum
-      current_value = calc_value(shares, quotes[sym]['quote']['latestPrice'])
-      p_change = calc_change(current_value, prev_value)
+      pos = calc_change_and_percentage(sym, quotes)
       logo = "https://storage.googleapis.com/iex/api/logos/#{sym}.png"
-      { symbol: sym, change: p_change, change_pct: calc_change_pct(p_change, current_value), logo: logo }
+      company_name = quotes[sym]['quote']['companyName']
+      { symbol: sym, change: pos[:change], change_pct: pos[:change_pct], logo: logo, company_name: company_name }
     end
   end
 
@@ -84,7 +89,6 @@ class Portfolio
   end
 
   def calc_shares_qtty(shares)
-    puts shares
     shares.map(&:size).sum(0)
   end
 end
