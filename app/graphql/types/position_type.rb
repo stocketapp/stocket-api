@@ -40,8 +40,8 @@ module Types
 
     private
 
-    def diff(a, b)
-      a - b.abs
+    def diff(val1, val2)
+      val1 - val2.abs
     end
 
     # Calculates the total value based on the price passed

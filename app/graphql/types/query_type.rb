@@ -39,7 +39,7 @@ module Types
       {
         symbol: symbol,
         shares: shares,
-        latest_price: latest_price,
+        latest_price: latest_price
       }
     end
 

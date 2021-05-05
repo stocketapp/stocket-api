@@ -31,7 +31,8 @@ class Portfolio
     shares = Share.where(user_id: @user.id, symbol: symbol)
     prev_value = shares.map(&:purchase_value).sum
     current_value = calc_value(shares, quotes[symbol]['quote']['latestPrice'])
-    { change: current_value, change_pct: calc_change(current_value, prev_value) }
+    p_change = calc_change(current_value, prev_value)
+    { change: current_value, change_pct: calc_change_pct(p_change, current_value) }
   end
 
   def calc_positions
@@ -50,10 +51,10 @@ class Portfolio
   def calc_value(shares, price)
     print_f value: calc_shares_qtty(shares) * price
   end
-
   # Returns the difference between a share's original value at time of buying and current value
   # @param [Float] current_value
   # @param [Integer] prev_value
+
   def calc_change(current_value, prev_value)
     print_f value: diff(current_value, prev_value)
   end
