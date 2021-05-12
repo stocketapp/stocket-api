@@ -13,6 +13,7 @@ module Types
     field :iex_realtime_price, Float, null: true # last sale price of the stock on IEX
     field :change, Float, null: true # change in value, calculated using calculation_price from previous_close
     field :change_percent, Float, null: true # change in percent, calculated using calculation_price from previous_close
+    field :change_percent_s, String, null: true # change in percent, calculated using calculation_price from previous_close
     field :market_cap, GraphQL::Types::BigInt, null: true # market cap, calculated in real time using calculation_price
     field :pe_ratio, Float, null: true # PE ratio, calculated in real time using calculation_price
     field :week_52_high, Float, null: true # adjusted 52 week high

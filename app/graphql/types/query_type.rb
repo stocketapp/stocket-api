@@ -6,7 +6,6 @@ module Types
   class QueryType < Types::BaseObject
     field :user, Types::UserType, null: false
     field :watchlist, Types::WatchlistType, null: true
-
     field :trades, [Types::TradeType], null: false
     field :balance_history, [Types::BalanceHistoryType], null: false, resolver_method: :balance_history
     field :portfolio, Types::PortfolioType, null: false
