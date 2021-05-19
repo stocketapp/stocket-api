@@ -13,6 +13,6 @@ module Types
     field :value, Float, null: false
     field :change, Float, null: false
     field :change_pct, Float, null: false
-    field :positions, [PortfolioPositions], null: false
+    field :positions, [PortfolioPositions], null: true
   end
 end
