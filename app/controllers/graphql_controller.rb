@@ -6,13 +6,10 @@ class GraphqlController < ApplicationController
   # protect_from_forgery with: :null_session
 
   def execute
-    variables = prepare_variables(params[:variables])
-    query = params[:query]
-    operation_name = params[:operationName]
-    token = request.env['HTTP_AUTHORIZATION']
-    current_user = get_current_user(token)
-    context = { current_user: current_user, token: token }
-    result = StocketApiSchema.execute(query, variables: variables, context: context, operation_name: operation_name)
+    vars = prepare_variables(params[:variables])
+    op_name = params[:operationName]
+    context = { current_user: get_current_user(request.env['HTTP_AUTHORIZATION']) }
+    result = StocketApiSchema.execute(params[:query], variables: vars, context: context, operation_name: op_name)
     render json: result
   rescue StandardError => e
     raise e unless Rails.env.development?
@@ -23,7 +20,7 @@ class GraphqlController < ApplicationController
   private
 
   def get_current_user(token)
-    Rails.env.development? && { uid: 'Uy0YhDXetYWGxLFB2aF4aMdUPyB3' }
+    return { uid: 'Uy0YhDXetYWGxLFB2aF4aMdUPyB3' } if Rails.env.development?
 
     result = FirebaseIdToken::Signature.verify(token)
     unless result
@@ -34,7 +31,6 @@ class GraphqlController < ApplicationController
     end
 
     uid = result['sub']
-
     params[:operationName] != 'CreateUser' ? User.find_by(uid: uid) : { uid: uid }
   end
 

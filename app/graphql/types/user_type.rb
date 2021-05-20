@@ -4,8 +4,9 @@ module Types
     field :id, ID, null: false
     field :uid, String, null: false
     field :email, String, null: false
-    field :displayName, String, null: false
-    field :portfolio_value, Float, null: false
+    field :displayName, String, null: true
+    field :portfolio_value, Float, null: true
+    field :cash, Int, null: false
 
     def portfolio_value
       user = User.find_by id: object[:id]
