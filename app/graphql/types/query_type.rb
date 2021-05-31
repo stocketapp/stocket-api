@@ -18,6 +18,10 @@ module Types
     field :chart, [Types::IexChartType], null: false do
       argument :symbol, String, required: true
     end
+    field :intraday, [Types::IexChartType], null: true do
+      argument :symbol, String, required: true
+      argument :range, String, required: false
+    end
 
     def user
       User.find_by! uid: context[:current_user][:uid]
@@ -62,6 +66,10 @@ module Types
 
     def chart(symbol:)
       ApplicationRecord.iex_chart(symbol)
+    end
+
+    def intraday(symbol:, range: '')
+      ApplicationRecord.iex_intraday_chart(symbol, range)
     end
   end
 end

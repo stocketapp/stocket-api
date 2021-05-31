@@ -29,12 +29,23 @@ class ApplicationRecord < ActiveRecord::Base
     )
   end
 
-  def self.iex_chart(symbol, range = '1d')
+  def self.iex_chart(symbol, range = '')
     iex_client.historical_prices(symbol, { range: range })
   end
 
-  def iex_chart(symbol, range = '1d')
+  def iex_chart(symbol, range = '')
     @client.historical_prices(symbol, { range: range })
+  end
+
+  def iex_intraday_chart(symbol)
+    @client.get(
+      "stock/#{symbol}/intraday-prices",
+      token: ENV['IEX_CLOUD_SECRET']
+    )
+  end
+
+  def self.iex_intraday_chart(symbol, range)
+    iex_client.chart(symbol, range)
   end
 
   def iex_quote
