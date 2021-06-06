@@ -22,6 +22,9 @@ module Types
       argument :symbol, String, required: true
       argument :range, String, required: false
     end
+    field :price, Float, null: true do
+      argument :symbol, String, required: true
+    end
 
     def user
       User.find_by! uid: context[:current_user][:uid]
@@ -70,6 +73,10 @@ module Types
 
     def intraday(symbol:, range: '')
       ApplicationRecord.iex_intraday_chart(symbol, range)
+    end
+
+    def price(symbol:)
+      ApplicationRecord.iex_price(symbol)
     end
   end
 end
