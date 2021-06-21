@@ -31,19 +31,22 @@ class Portfolio
     calc_change(current_value, purchase_value)
   end
 
-  def calc_change_and_pct(share, latest_price)
+  def all_time_change(share, latest_price)
     sum_change = calc_change_with_price(share.price, share.size, latest_price)
     pct = calc_change_pct(sum_change, latest_price * share.size)
     { change: sum_change, pct: pct }
   end
 
   def define_position(sym, quotes)
-    latest_price = quotes[sym]['quote']['latestPrice']
-    name = quotes[sym]['quote']['companyName']
-    pos = Share.where(user_id: 3, symbol: sym).map { |sh| calc_change_and_pct(sh, latest_price) }
-    change = pos.sum { |i| i[:change] }
-    pct = pos.sum { |i| i[:pct] }
-    { symbol: sym, change: change, change_pct: pct, logo: logo(sym), company_name: name }
+    price = quotes[sym]['quote']['latestPrice']
+    pos = Share.where(user_id: @user.id, symbol: sym).map { |sh| all_time_change(sh, price) }
+    {
+      symbol: sym,
+      change: pos.sum { |i| i[:change] },
+      change_pct: pos.sum { |i| i[:pct] },
+      logo: logo(sym),
+      company_name: quotes[sym]['quote']['companyName']
+    }
   end
 
   def calc_positions
