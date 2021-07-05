@@ -2,12 +2,12 @@ module Types
   # PositionType
   class PositionType < Types::BaseObject
     field :symbol, String, null: false
-    field :total_value, Float, null: false
-    field :change_pct, Float, null: false
-    field :change, Float, null: false
-    field :avg_price, Float, null: false
-    field :position_size, Integer, null: false
-    field :total_gains, Float, null: false
+    field :total_value, Float, null: true
+    field :change_pct, Float, null: true
+    field :change, Float, null: true
+    field :avg_price, Float, null: true
+    field :position_size, Integer, null: true
+    field :total_gains, Float, null: true
 
     def symbol
       object[:symbol]

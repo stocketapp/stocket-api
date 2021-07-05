@@ -38,14 +38,21 @@ class Portfolio
   end
 
   def define_position(sym, quotes)
-    price = quotes[sym]['quote']['latestPrice']
-    pos = Share.where(user_id: @user.id, symbol: sym).map { |sh| all_time_change(sh, price) }
+    pos = Share.where(user_id: @user.id, symbol: sym).map do |sh|
+      all_time_change(sh, quotes[sym]['quote']['latestPrice'])
+    end
+    shares_qtty = Share.where(user_id: @user.id, symbol: sym).sum(&:size)
+    position_object(sym, quotes[sym]['quote']['companyName'], pos, shares_qtty)
+  end
+
+  def position_object(symbol, company_name, position, size)
     {
-      symbol: sym,
-      change: pos.sum { |i| i[:change] },
-      change_pct: pos.sum { |i| i[:pct] },
-      logo: logo(sym),
-      company_name: quotes[sym]['quote']['companyName']
+      symbol: symbol,
+      change: position.sum { |i| i[:change] },
+      change_pct: position.sum { |i| i[:pct] },
+      logo: logo(symbol),
+      company_name: company_name,
+      size: size
     }
   end
 

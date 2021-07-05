@@ -14,6 +14,7 @@ module Types
     end
     field :position, Types::PositionType, null: false do
       argument :symbol, String, required: true
+      argument :price, Float, required: false
     end
     field :chart, [Types::IexChartType], null: false do
       argument :symbol, String, required: true
@@ -38,9 +39,9 @@ module Types
       ApplicationRecord.iex_quote(symbol)
     end
 
-    def position(symbol:)
+    def position(symbol:, price: nil)
       shares = Share.where symbol: symbol, user_id: context[:current_user][:id]
-      latest_price = Share.iex_price(symbol)
+      latest_price = price.nil? ? Share.iex_price(symbol) : price
 
       {
         symbol: symbol,
@@ -58,6 +59,7 @@ module Types
     end
 
     def portfolio
+      # TODO: Use PortfolioType instead. Optimize this query!!!
       portfolio = Portfolio.new(user_id: context[:current_user][:id])
       {
         value: portfolio.value,

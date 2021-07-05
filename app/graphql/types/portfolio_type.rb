@@ -6,6 +6,7 @@ module Types
     field :change, Float, null: false
     field :change_pct, Float, null: false
     field :logo, String, null: false
+    field :size, Float, null: false
     field :company_name, String, null: false
   end
 
