@@ -49,14 +49,18 @@ class ApplicationRecord < ActiveRecord::Base
   end
 
   def iex_quote
+    StocketMetric.start('#iex_quote')
     quote = @client.quote(symbol)
     logo = { 'logo' => "https://storage.googleapis.com/iex/api/logos/#{symbol}.png" }
+    StocketMetric.end
     logo.merge(quote)
   end
 
   def self.iex_quote(symbol)
+    StocketMetric.start('#iex_quote')
     quote = iex_client.quote(symbol)
     logo = { 'logo' => "https://storage.googleapis.com/iex/api/logos/#{symbol}.png" }
+    StocketMetric.end
     logo.merge(quote)
   end
 
