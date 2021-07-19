@@ -1,70 +1,99 @@
 module Types
   # PositionType
   class PositionType < Types::BaseObject
-    field :symbol, String, null: false
-    field :total_value, Float, null: true
-    field :change_pct, Float, null: true
-    field :change, Float, null: true
-    field :avg_price, Float, null: true
-    field :position_size, Integer, null: true
-    field :total_gains, Float, null: true
+    field :symbol, String, 'Stock symbol', null: false
+    field :total_value, Float, 'Total value of the portfolio', null: true
+    field :avg_price, Float, 'Average price at which the stock was purchased', null: true
+    field :position_size, Integer, 'Amount of shares owned', null: true
+    field :total_invested, Float, 'Total amount of money currently invested', null: false
+    field :total_gains, Float, "Position's all time change", null: true
+    field :total_gains_pct, Float, "Position's all time change %", null: true
+    field :change_24h, Float, "Position's 24 hours change", null: true
+    field :change_pct_24h, Float, "Position's 24 hours change %", null: true
 
     def symbol
       object[:symbol]
     end
 
     def total_value
-      calc_value(object[:latest_price])
+      total_current_value
     end
 
-    def change
-      calc_change
-    end
-
-    def change_pct
-      print_f value: (calc_change / calc_value(object[:latest_price])) * 100
-    end
-
+    # Average price at which the stock was purchased
     def avg_price
       shares = object[:shares]
       shares.map { |el| el['price'] }.sum(0.00) / shares.size
     end
 
+    # Return amount of shares owned
     def position_size
-      calc_shares_qtty
+      size
     end
 
+    # Return total amount of money currently invested
+    def total_invested
+      object[:shares].sum(&:purchase_value)
+    end
+
+    # Position's all time change
     def total_gains
-      print_f value: diff(calc_value(object[:latest_price]), object[:shares].map { |el| el['purchase_value'] }.sum)
+      puts "total_current_value #{total_current_value}, total_purchase_value #{total_purchase_value}"
+      print_f value: diff(total_current_value, total_purchase_value)
+    end
+
+    # Position's all time change %
+    def total_gains_pct
+      calc_any_pct(total_purchase_value)
+    end
+
+    # Position's 24 hours change
+    def change_24h
+      calc_any_change(latest_price, previous_day_price, size)
+    end
+
+    # Position's 24 hours change %
+    def change_pct_24h
+      calc_any_pct(previous_day_price * size)
     end
 
     private
 
-    def diff(val1, val2)
-      val1 - val2.abs
+    # Return the change by comparing the previous price and the current price and multiplying by share size
+    # @param [Float] price
+    # @param [Float] prev_price
+    # @param [Float] size
+    def calc_any_change(price, prev_price, size)
+      print_f value: diff(price * size, prev_price * size)
     end
 
-    # Calculates the total value based on the price passed
-    def calc_value(price)
-      print_f value: calc_shares_qtty * price
+    # Returns the change percentage based on given values
+    def calc_any_pct(old_val)
+      print_f value: ((total_current_value - old_val) / old_val) * 100
     end
 
-    # Returns the difference of the shares value between the original value at time of buying and current value
-    def calc_change
-      current_value = calc_value(object[:latest_price])
-      prev_value = object[:shares].map(&:purchase_value).sum
-
-      print_f value: diff(current_value, prev_value)
+    # Returns the latest price from the stock quote
+    def latest_price
+      object[:quote]['latest_price']
     end
 
-    # Returns the amount of shares owned
-    def calc_shares_qtty
+    # Returns the previous day closing price from the stock quote
+    def previous_day_price
+      object[:quote]['previous_close']
+    end
+
+    # Return the amount of shares owned for the queried stock
+    def size
       object[:shares].map(&:size).sum(0)
     end
 
-    # Returns number formatted with two digits after decimal point
-    def print_f(value:)
-      (format '%.2f', value).to_f
+    # Return the total value of all owned shares based on current price
+    def total_current_value
+      latest_price * size
+    end
+
+    # Return the total value of all owned shares at purchase
+    def total_purchase_value
+      object[:shares].sum(&:purchase_value)
     end
   end
 end

@@ -14,7 +14,6 @@ module Types
     end
     field :position, Types::PositionType, null: false do
       argument :symbol, String, required: true
-      argument :price, Float, required: false
     end
     field :chart, [Types::IexChartType], null: false do
       argument :symbol, String, required: true
@@ -39,14 +38,14 @@ module Types
       ApplicationRecord.iex_quote(symbol)
     end
 
-    def position(symbol:, price: nil)
+    def position(symbol:)
       shares = Share.where symbol: symbol, user_id: context[:current_user][:id]
-      latest_price = price.nil? ? Share.iex_price(symbol) : price
+      quote = ApplicationRecord.iex_quote(symbol)
 
       {
         symbol: symbol,
         shares: shares,
-        latest_price: latest_price
+        quote: quote
       }
     end
 
