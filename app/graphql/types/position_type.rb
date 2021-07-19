@@ -4,12 +4,14 @@ module Types
     field :symbol, String, 'Stock symbol', null: false
     field :total_value, Float, 'Total value of the portfolio', null: true
     field :avg_price, Float, 'Average price at which the stock was purchased', null: true
-    field :position_size, Integer, 'Amount of shares owned', null: true
+    field :size, Integer, 'Amount of shares owned', null: true
     field :total_invested, Float, 'Total amount of money currently invested', null: false
     field :total_gains, Float, "Position's all time change", null: true
     field :total_gains_pct, Float, "Position's all time change %", null: true
     field :change_24h, Float, "Position's 24 hours change", null: true
     field :change_24h_pct, Float, "Position's 24 hours change %", null: true
+    field :logo, String, "Company's logo", null: true
+    field :company_name, String, "Company's name", null: false
 
     def symbol
       object[:symbol]
@@ -25,9 +27,9 @@ module Types
       shares.map { |el| el['price'] }.sum(0.00) / shares.size
     end
 
-    # Return amount of shares owned
-    def position_size
-      size
+    # Return the amount of shares owned for the queried stock
+    def size
+      object[:shares].map(&:size).sum(0)
     end
 
     # Return total amount of money currently invested
@@ -55,6 +57,15 @@ module Types
       calc_any_pct(previous_day_price * size)
     end
 
+    # Returns the company logo
+    def logo
+      "https://storage.googleapis.com/iex/api/logos/#{symbol}.png"
+    end
+
+    def company_name
+      object[:quote]['company_name'] || object[:quote]['companyName']
+    end
+
     private
 
     # Return the change by comparing the previous price and the current price and multiplying by share size
@@ -78,11 +89,6 @@ module Types
     # Returns the previous day closing price from the stock quote
     def previous_day_price
       object[:quote]['previous_close'] || object[:quote]['previousClose']
-    end
-
-    # Return the amount of shares owned for the queried stock
-    def size
-      object[:shares].map(&:size).sum(0)
     end
 
     # Return the total value of all owned shares based on current price
