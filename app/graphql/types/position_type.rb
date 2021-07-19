@@ -9,7 +9,7 @@ module Types
     field :total_gains, Float, "Position's all time change", null: true
     field :total_gains_pct, Float, "Position's all time change %", null: true
     field :change_24h, Float, "Position's 24 hours change", null: true
-    field :change_pct_24h, Float, "Position's 24 hours change %", null: true
+    field :change_24h_pct, Float, "Position's 24 hours change %", null: true
 
     def symbol
       object[:symbol]
@@ -37,7 +37,6 @@ module Types
 
     # Position's all time change
     def total_gains
-      puts "total_current_value #{total_current_value}, total_purchase_value #{total_purchase_value}"
       print_f value: diff(total_current_value, total_purchase_value)
     end
 
@@ -52,7 +51,7 @@ module Types
     end
 
     # Position's 24 hours change %
-    def change_pct_24h
+    def change_24h_pct
       calc_any_pct(previous_day_price * size)
     end
 
@@ -73,12 +72,12 @@ module Types
 
     # Returns the latest price from the stock quote
     def latest_price
-      object[:quote]['latest_price']
+      object[:quote]['latest_price'] || object[:quote]['latestPrice']
     end
 
     # Returns the previous day closing price from the stock quote
     def previous_day_price
-      object[:quote]['previous_close']
+      object[:quote]['previous_close'] || object[:quote]['previousClose']
     end
 
     # Return the amount of shares owned for the queried stock

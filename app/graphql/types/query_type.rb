@@ -41,12 +41,7 @@ module Types
     def position(symbol:)
       shares = Share.where symbol: symbol, user_id: context[:current_user][:id]
       quote = ApplicationRecord.iex_quote(symbol)
-
-      {
-        symbol: symbol,
-        shares: shares,
-        quote: quote
-      }
+      { symbol: symbol, shares: shares, quote: quote }
     end
 
     def trades
@@ -58,14 +53,9 @@ module Types
     end
 
     def portfolio
-      # TODO: Use PortfolioType instead. Optimize this query!!!
-      portfolio = Portfolio.new(user_id: context[:current_user][:id])
-      {
-        value: portfolio.value,
-        change: portfolio.change,
-        change_pct: portfolio.change_pct,
-        positions: portfolio.positions
-      }
+      user_id = context[:current_user][:id]
+      shares = Share.where user_id: user_id
+      { user_id: user_id, shares: shares }
     end
 
     def chart(symbol:)
