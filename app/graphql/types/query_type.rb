@@ -55,7 +55,9 @@ module Types
     def portfolio
       user_id = context[:current_user][:id]
       shares = Share.where user_id: user_id
-      { user_id: user_id, shares: shares }
+      symbols = shares.map(&:symbol).uniq
+      quotes = ApplicationRecord.fetch_iex_batch_quote(symbols.join(','))
+      { user_id: user_id, shares: shares, quotes: quotes, symbols: symbols }
     end
 
     def chart(symbol:)

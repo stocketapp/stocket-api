@@ -31,14 +31,11 @@ module Types
     end
 
     def positions
-      symbols = shares.map(&:symbol).uniq
-      quotes = Share.fetch_iex_batch_quote(symbols.join(','))
-
-      symbols.map do |s|
+      object[:symbols].map do |s|
         {
           symbol: s,
-          shares: Share.where(symbol: s, user_id: user_id),
-          quote: quotes[s]['quote']
+          shares: object[:shares].select { |el| el.user_id == user_id },
+          quote: object[:quotes][s]['quote']
         }
       end
     end
@@ -49,7 +46,7 @@ module Types
     def calculate_portfolio_value
       new_arr = []
       portfolio = create_portfolio(shares)
-      portfolio.each_pair { |k, v| new_arr.push(Share.iex_price(k) * v) }
+      portfolio.each_pair { |k, v| new_arr.push(object[:quotes][k]['quote']['latestPrice'] * v) }
       (format '%.2f', new_arr.sum).to_f
     end
 
