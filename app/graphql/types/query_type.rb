@@ -25,6 +25,9 @@ module Types
     field :price, Float, null: true do
       argument :symbol, String, required: true
     end
+    field :news, [Types::IexNewsType], null: false do
+      argument :symbol, String, required: true
+    end
 
     def user
       User.find_by! uid: context[:current_user][:uid]
@@ -70,6 +73,10 @@ module Types
 
     def price(symbol:)
       ApplicationRecord.iex_price(symbol)
+    end
+
+    def news(symbol:)
+      ApplicationRecord.iex_news(symbol)
     end
   end
 end
