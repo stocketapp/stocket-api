@@ -76,8 +76,8 @@ class ApplicationRecord < ActiveRecord::Base
     iex_client.get("stock/#{symbol}/previous", token: ENV['IEX_CLOUD_SECRET'])['close']
   end
 
-  def self.iex_news(symbol)
-    iex_client.news(symbol)
+  def self.iex_news(symbol, range: 10)
+    iex_client.get("stock/#{symbol}/news/last/#{range}", token: ENV['IEX_CLOUD_SECRET'])
   end
 
   def self.iex_client
