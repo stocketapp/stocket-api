@@ -13,5 +13,6 @@ module Types
     field :zip, String, null: false
     field :country, String, null: false
     field :phone, String, null: true
+    field :logo, String, null: true
   end
 end

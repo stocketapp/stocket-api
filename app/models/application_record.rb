@@ -59,9 +59,9 @@ class ApplicationRecord < ActiveRecord::Base
   def self.iex_quote(symbol)
     StocketMetric.start('#iex_quote')
     quote = iex_client.quote(symbol)
-    logo = { 'logo' => "https://storage.googleapis.com/iex/api/logos/#{symbol}.png" }
+    company_logo = { 'logo' => "https://storage.googleapis.com/iex/api/logos/#{symbol}.png" }
     StocketMetric.end
-    logo.merge(quote)
+    company_logo.merge(quote)
   end
 
   def iex_price
@@ -81,7 +81,8 @@ class ApplicationRecord < ActiveRecord::Base
   end
 
   def self.iex_company(symbol)
-    iex_client.company(symbol)
+    company_logo = { 'logo' => logo(symbol) }
+    company_logo.merge(iex_client.company(symbol))
   end
 
   def self.iex_client
@@ -90,5 +91,9 @@ class ApplicationRecord < ActiveRecord::Base
       secret_token: ENV['IEX_CLOUD_SECRET'],
       endpoint: ENV['IEX_CLOUD_URL']
     )
+  end
+
+  def self.logo(symbol)
+    "https://storage.googleapis.com/iex/api/logos/#{symbol}.png"
   end
 end
