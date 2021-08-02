@@ -80,6 +80,10 @@ class ApplicationRecord < ActiveRecord::Base
     iex_client.get("stock/#{symbol}/news/last/#{range}", token: ENV['IEX_CLOUD_SECRET'])
   end
 
+  def self.iex_company(symbol)
+    iex_client.company(symbol)
+  end
+
   def self.iex_client
     IEX::Api::Client.new(
       publishable_token: ENV['IEX_CLOUD_TOKEN'],

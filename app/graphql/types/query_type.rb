@@ -28,6 +28,9 @@ module Types
     field :news, [Types::IexNewsType], null: false do
       argument :symbol, String, required: true
     end
+    field :company, Types::CompanyType, null: false do
+      argument :symbol, String, required: true
+    end
 
     def user
       User.find_by! uid: context[:current_user][:uid]
@@ -77,6 +80,10 @@ module Types
 
     def news(symbol:)
       ApplicationRecord.iex_news(symbol)
+    end
+
+    def company(symbol:)
+      ApplicationRecord.iex_company(symbol)
     end
   end
 end
