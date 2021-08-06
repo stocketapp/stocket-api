@@ -31,6 +31,9 @@ module Types
     field :company, Types::CompanyType, null: false do
       argument :symbol, String, required: true
     end
+    field :stats, Types::KeyStatsType, null: false do
+      argument :symbol, String, required: true
+    end
 
     def user
       User.find_by! uid: context[:current_user][:uid]
@@ -84,6 +87,10 @@ module Types
 
     def company(symbol:)
       ApplicationRecord.iex_company(symbol)
+    end
+
+    def stats(symbol:)
+      ApplicationRecord.key_stats(symbol)
     end
   end
 end

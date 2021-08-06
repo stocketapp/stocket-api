@@ -85,6 +85,10 @@ class ApplicationRecord < ActiveRecord::Base
     company_logo.merge(iex_client.company(symbol))
   end
 
+  def self.key_stats(symbol)
+    iex_client.key_stats(symbol)
+  end
+
   def self.iex_client
     IEX::Api::Client.new(
       publishable_token: ENV['IEX_CLOUD_TOKEN'],
