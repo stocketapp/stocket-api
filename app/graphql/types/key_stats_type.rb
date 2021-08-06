@@ -1,7 +1,7 @@
 module Types
   class KeyStatsType < Types::BaseObject
     field :company_name, String, null: true
-    field :market_cap, Integer, null: true
+    field :market_cap, GraphQL::Types::BigInt, null: true
     field :week_52_high, Integer, null: true
     field :week_52_low, Integer, null: true
     field :week_52_change, Integer, null: true
@@ -19,8 +19,8 @@ module Types
     field :month_3_change_percent, Integer, null: true
     field :month_1_change_percent, Integer, null: true
     field :day_5_change_percent, Integer, null: true
-    field :avg_10_volume, Integer, null: true
-    field :avg_30_volume, Integer, null: true
+    field :avg_10_volume, GraphQL::Types::BigInt, null: true
+    field :avg_30_volume, GraphQL::Types::BigInt, null: true
     field :ttm_dividend_rate, Integer, null: true
     field :max_change_percent, Integer, null: true
     field :day_30_change_percent, Integer, null: true
