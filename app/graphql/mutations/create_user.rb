@@ -1,4 +1,5 @@
 module Mutations
+  # CreateUser
   class CreateUser < BaseMutation
     argument :user, Types::CurrentUserInput, required: true
 
@@ -7,11 +8,11 @@ module Mutations
     field :user, Types::UserType, null: true
 
     def resolve(user: nil)
-      return { success: false, message: 'User already exists' } if user_exists?(user)
+      return { success: false, message: 'User already exists', user: User.find_by!(uid: context[:current_user][:uid]) } if user_exists?(user)
 
       created_user = create_user(user)
 
-      return { success: false, message: 'Could not create user' } unless user
+      return { success: false, message: 'Could not create user', user: null } unless user
 
       { success: true, message: 'User created', user: created_user }
     end

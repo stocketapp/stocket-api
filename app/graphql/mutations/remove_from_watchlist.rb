@@ -1,4 +1,5 @@
 module Mutations
+  # RemoveFromWatchlist
   class RemoveFromWatchlist < BaseMutation
     argument :symbol, String, required: true
 
