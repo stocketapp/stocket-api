@@ -33,7 +33,7 @@ class ApplicationRecord < ActiveRecord::Base
     iex_client.historical_prices(symbol, { range: range })
   end
 
-  def iex_chart(symbol, range = '')
+  def iex_chart(symbol, range = '1d')
     @client.historical_prices(symbol, { range: range })
   end
 
@@ -44,8 +44,8 @@ class ApplicationRecord < ActiveRecord::Base
     )
   end
 
-  def self.iex_intraday_chart(symbol, range)
-    iex_client.chart(symbol, range)
+  def self.iex_intraday_chart(symbol, range = '1d')
+    iex_client.chart(symbol, range, chart_interval: 5)
   end
 
   def iex_quote

@@ -14,5 +14,6 @@ module Types
     # field :change_over_time_s, String, null: true
     field :change_percent, Float, null: true
     field :change_percent_s, String, null: true
+    field :minute, String, null: true
   end
 end

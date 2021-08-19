@@ -73,8 +73,8 @@ module Types
       ApplicationRecord.iex_chart(symbol)
     end
 
-    def intraday(symbol:, range: '')
-      ApplicationRecord.iex_intraday_chart(symbol, range)
+    def intraday(symbol:)
+      ApplicationRecord.iex_intraday_chart(symbol, '1d')
     end
 
     def price(symbol:)
