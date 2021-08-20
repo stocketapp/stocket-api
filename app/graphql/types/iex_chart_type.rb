@@ -10,7 +10,7 @@ module Types
     field :date, String, null: true
     field :label, String, null: true
     field :change, Float, null: true
-    field :change_over_time, Float, null: true
+    field :changeOverTime, Float, null: true
     # field :change_over_time_s, String, null: true
     field :change_percent, Float, null: true
     field :change_percent_s, String, null: true

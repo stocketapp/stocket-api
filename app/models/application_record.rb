@@ -44,8 +44,12 @@ class ApplicationRecord < ActiveRecord::Base
     )
   end
 
-  def self.iex_intraday_chart(symbol, range = '1d')
-    iex_client.chart(symbol, range, chart_interval: 5)
+  def self.iex_intraday_chart(symbol)
+    iex_client.get(
+      "stock/#{symbol}/intraday-prices",
+      chartInterval: 5,
+      token: ENV['IEX_CLOUD_SECRET']
+    )
   end
 
   def iex_quote
