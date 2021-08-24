@@ -20,6 +20,7 @@ class GraphqlController < ApplicationController
   private
 
   def get_current_user(token)
+    Sentry.capture_message("test message")
     return User.find_by(uid: 'Uy0YhDXetYWGxLFB2aF4aMdUPyB3') if Rails.env.development?
 
     result = FirebaseIdToken::Signature.verify(token)

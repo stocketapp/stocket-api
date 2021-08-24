@@ -3,7 +3,6 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '3.0.0'
 
-gem 'airbrake'
 gem 'faraday'
 gem 'firebase_id_token'
 gem 'graphql'
@@ -13,6 +12,8 @@ gem 'puma', '~> 4.1'
 gem 'rack-cors'
 gem 'rails', '~> 6.0.3', '>= 6.0.3.4'
 gem 'redis', '~> 4.2.5'
+gem 'sentry-rails'
+gem 'sentry-ruby'
 gem 'whenever', require: false
 
 # Reduces boot times through caching; required in config/boot.rb
