@@ -6,7 +6,7 @@ module Types
     field :close, Float, null: true
     field :symbol, String, null: false
     field :volume, GraphQL::Types::BigInt, null: true
-    # field :market_change_over_time, GraphQL::Types::BigInt, null: true
+    field :market_change_over_time, GraphQL::Types::BigInt, null: true
     field :date, String, null: true
     field :label, String, null: true
     field :change, Float, null: true
