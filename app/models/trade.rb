@@ -10,21 +10,29 @@ class Trade < ApplicationRecord
 
   def buy
     Share.create!(share_obj) do
-      user = User.find_by id: user_id
-      new_value = user[:cash] + total
+      if use[:cash] >= total
+        user = User.find_by id: user_id
+        new_value = user[:cash] + total
 
-      User.update(user_id, cash: new_value)
+        User.update(user_id, cash: new_value)
+      end
     end
   end
 
   def sell
-    share = retrieve_share
-
-    if share.size <= size
-      share.destroy!
-    else
-      share.update(size: share[:size] - size)
-      User.update(user[:id], cash: user[:cash] - total)
+    shares = retrieve_shares
+    i = 0
+    remaining = share_obj[:size]
+    while remaining != 0
+      current = shares[i]
+      if current[:size] <= remaining
+        current.destroy!
+        remaining -= current[:size]
+      elsif current[:size] > remaining
+        current.update(size: current[:size] - remaining)
+        remaining -= remaining
+      end
+      i += 1
     end
   end
 
@@ -41,7 +49,7 @@ class Trade < ApplicationRecord
     }
   end
 
-  def retrieve_share
-    Share.find_by symbol: symbol, user_id: user_id
+  def retrieve_shares
+    Share.where symbol: symbol, user_id: user_id
   end
 end
