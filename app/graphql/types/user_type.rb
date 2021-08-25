@@ -5,7 +5,7 @@ module Types
     field :uid, String, null: false
     field :email, String, null: false
     field :display_name, String, null: true
-    field :portfolio_value, Float, null: true
+    # field :portfolio_value, Float, null: true // TODO: FIX THIS
     field :cash, Int, null: false
 
     def display_name
@@ -28,9 +28,7 @@ module Types
       object[:id]
     end
 
-    def portfolio_value
-      user = User.find_by id: object[:id]
-      user.calculate_portfolio_value
-    end
+    # def portfolio_value
+    # end
   end
 end

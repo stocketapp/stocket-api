@@ -11,12 +11,9 @@ class User < ApplicationRecord
   # @return [Float]
   def calculate_portfolio_value
     new_arr = []
-    portfolio = create_portfolio(Share.where(user_id: id))
-    portfolio.each_pair do |k, v|
-      share = Share.iex_price(k)
-      new_arr.push(share * v)
-    end
-    (format '%.2f', new_arr.sum).to_f
+    portfolio = create_portfolio(shares)
+    portfolio.each_pair { |k, v| new_arr.push(object[:quotes][k]['quote']['latestPrice'] * v) }
+    (format '%.2f', new_arr.sum + :cash).to_f
   end
 
   private
@@ -24,10 +21,8 @@ class User < ApplicationRecord
   # @param [ActiveRecord::Relation<Share>] positions
   # @return [Hash]
   def create_portfolio(positions)
-    new_obj = {}
-    positions.each do |p|
-      new_obj.key?(p.symbol) ? new_obj[p.symbol] += p.size : new_obj[p.symbol] = p.size
-    end
-    new_obj
+    obj = {}
+    positions.each { |p| obj.key?(p.symbol) ? obj[p.symbol] += p.size : obj[p.symbol] = p.size }
+    obj
   end
 end

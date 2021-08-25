@@ -16,9 +16,14 @@ module Types
     field :change, Float, null: true
     field :change_pct, Float, null: true
     field :positions, [Types::PositionType], null: true
+    field :value_with_cash, Float, null: false
 
     def value
       calculate_portfolio_value
+    end
+
+    def value_with_cash
+      value + user.cash
     end
 
     def change
@@ -56,6 +61,10 @@ module Types
       obj = {}
       positions.each { |p| obj.key?(p.symbol) ? obj[p.symbol] += p.size : obj[p.symbol] = p.size }
       obj
+    end
+
+    def user
+      User.find_by id: user_id
     end
 
     def user_id
