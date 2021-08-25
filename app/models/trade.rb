@@ -12,9 +12,8 @@ class Trade < ApplicationRecord
     Share.create!(share_obj) do
       if use[:cash] >= total
         user = User.find_by id: user_id
-        new_value = user[:cash] + total
 
-        User.update(user_id, cash: new_value)
+        User.update(user_id, cash: user[:cash] - total)
       end
     end
   end
@@ -22,7 +21,7 @@ class Trade < ApplicationRecord
   def sell
     shares = retrieve_shares
     i = 0
-    remaining = share_obj[:size]
+    remaining = size
     while remaining != 0
       current = shares[i]
       if current[:size] <= remaining
@@ -34,6 +33,7 @@ class Trade < ApplicationRecord
       end
       i += 1
     end
+    User.update(user[:id], cash: user[:cash] + total)
   end
 
   private

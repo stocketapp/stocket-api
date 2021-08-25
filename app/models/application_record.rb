@@ -40,16 +40,14 @@ class ApplicationRecord < ActiveRecord::Base
   def iex_intraday_chart(symbol)
     @client.get(
       "stock/#{symbol}/intraday-prices",
-      token: ENV['IEX_CLOUD_SECRET'],
-      filter: 'minute,high,low,average,volume,changeOverTime'
+      token: ENV['IEX_CLOUD_SECRET']
     )
   end
 
   def self.iex_intraday_chart(symbol)
     iex_client.get(
       "stock/#{symbol}/intraday-prices",
-      token: ENV['IEX_CLOUD_SECRET'],
-      filter: 'minute,high,low,average,volume,changeOverTime'
+      token: ENV['IEX_CLOUD_SECRET']
     )
   end
 
