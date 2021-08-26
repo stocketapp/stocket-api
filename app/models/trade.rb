@@ -10,7 +10,7 @@ class Trade < ApplicationRecord
 
   def buy
     Share.create!(share_obj) do
-      if use[:cash] >= total
+      if user[:cash] >= total
         user = User.find_by id: user_id
 
         User.update(user_id, cash: user[:cash] - total)
