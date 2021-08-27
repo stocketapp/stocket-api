@@ -34,6 +34,7 @@ module Types
     field :stats, Types::KeyStatsType, null: false do
       argument :symbol, String, required: true
     end
+    field :balance, Types::BalanceType, null: false
 
     def user
       User.find_by! uid: context[:current_user][:uid]
@@ -91,6 +92,11 @@ module Types
 
     def stats(symbol:)
       ApplicationRecord.key_stats(symbol)
+    end
+
+    def balance
+      user = User.find_by! uid: context[:current_user][:uid]
+      { cash: user.cash }
     end
   end
 end

@@ -5,7 +5,7 @@ module Mutations
   class CreateTrade < BaseMutation
     argument :symbol, String, 'Stock symbol', required: true
     argument :price, Float, 'Price per stock', required: true
-    argument :size, Int, 'Quantity of stocks user is buying', required: true
+    argument :size, Float, 'Quantity of stocks user is buying', required: true
     argument :order_type, String, 'Order type can be either "BUY" or "SELL"', required: true
 
     type Types::TradeType
