@@ -35,6 +35,9 @@ module Types
       argument :symbol, String, required: true
     end
     field :balance, Types::BalanceType, null: false
+    field :list, [Types::IexQuoteType], null: false do
+      argument :list_type, String, required: false
+    end
 
     def user
       User.find_by! uid: context[:current_user][:uid]
@@ -97,6 +100,10 @@ module Types
     def balance
       user = User.find_by! uid: context[:current_user][:uid]
       { cash: user.cash }
+    end
+
+    def list(list_type:)
+      ApplicationRecord.list(list_type)
     end
   end
 end
