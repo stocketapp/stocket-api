@@ -99,7 +99,7 @@ module Types
 
     def balance
       user = User.find_by! uid: context[:current_user][:uid]
-      { cash: user.cash }
+      { user: user }
     end
 
     def list(list_type:)

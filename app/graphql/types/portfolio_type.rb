@@ -57,9 +57,9 @@ module Types
 
     # @param [ActiveRecord::Relation<Share>] positions
     # @return [Hash]
-    def create_portfolio(positions)
+    def create_portfolio(pos)
       obj = {}
-      positions.each { |p| obj.key?(p.symbol) ? obj[p.symbol] += p.size : obj[p.symbol] = p.size }
+      pos.each { |p| obj.key?(p.symbol) ? obj[p.symbol] += p.size : obj[p.symbol] = p.size }
       obj
     end
 
