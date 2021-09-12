@@ -4,5 +4,6 @@ module Types
     field :add_to_watchlist, mutation: Mutations::AddToWatchlist
     field :remove_from_watchlist, mutation: Mutations::RemoveFromWatchlist
     field :create_trade, mutation: Mutations::CreateTrade
+    field :add_cash, mutation: Mutations::AddCash
   end
 end
