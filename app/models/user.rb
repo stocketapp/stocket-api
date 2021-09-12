@@ -4,6 +4,7 @@ class User < ApplicationRecord
   has_many :shares
   has_many :balance_histories
   has_many :watchlists
+  has_many :purchases
 
   validates :email, presence: true, uniqueness: true
   validates :uid, presence: true, uniqueness: true
