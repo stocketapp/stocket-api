@@ -38,6 +38,7 @@ module Types
     field :list, [Types::IexQuoteType], null: false do
       argument :list_type, String, required: false
     end
+    field :purchases, [Types::PurchaseType], null: true
 
     def user
       User.find_by! uid: context[:current_user][:uid]
@@ -104,6 +105,10 @@ module Types
 
     def list(list_type:)
       ApplicationRecord.list(list_type)
+    end
+
+    def purchases
+      Purchase.where user_id: context[:current_user][:id]
     end
   end
 end
