@@ -8,7 +8,7 @@ module Types
     field :watchlist, Types::WatchlistType, null: true
     field :trades, [Types::TradeType], null: false
     field :balance_history, [Types::BalanceHistoryType], null: false, resolver_method: :balance_history
-    field :portfolio, Types::PortfolioType, null: false
+    field :portfolio, Types::PortfolioType, null: true
     field :quote, Types::IexQuoteType, null: false do
       argument :symbol, String, required: true
     end
@@ -70,8 +70,10 @@ module Types
       user_id = context[:current_user][:id]
       shares = Share.where user_id: user_id
       symbols = shares.map(&:symbol).uniq
-      quotes = ApplicationRecord.fetch_iex_batch_quote(symbols.join(','))
-      { user_id: user_id, shares: shares, quotes: quotes, symbols: symbols }
+      if symbols.size.positive?
+        quotes = ApplicationRecord.fetch_iex_batch_quote(symbols.join(','))
+        { user_id: user_id, shares: shares, quotes: quotes, symbols: symbols }
+      end
     end
 
     def chart(symbol:)

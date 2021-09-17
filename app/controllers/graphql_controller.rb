@@ -20,7 +20,7 @@ class GraphqlController < ApplicationController
   private
 
   def get_current_user(token)
-    return User.find_by(uid: 'Uy0YhDXetYWGxLFB2aF4aMdUPyB3') if Rails.env.development?
+    return User.find_by(uid: 'rAOJFXYor4XvCb2As25gkcOd7MD2') if Rails.env.development?
 
     result = FirebaseIdToken::Signature.verify(token)
     unless result
@@ -30,7 +30,7 @@ class GraphqlController < ApplicationController
       )
     end
 
-    uid = result['sub']
+    uid = result['user_id']
     params[:operationName] != 'CreateUser' ? User.find_by(uid: uid) : { uid: uid }
   end
 

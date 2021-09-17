@@ -8,7 +8,9 @@ module Mutations
     field :user, Types::UserType, null: true
 
     def resolve(user: nil)
-      return { success: false, message: 'User already exists', user: User.find_by!(uid: context[:current_user][:uid]) } if user_exists?(user)
+      if user_exists?(user)
+        return { success: false, message: 'User already exists', user: User.find_by(uid: user[:uid]) }
+      end
 
       created_user = create_user(user)
 
