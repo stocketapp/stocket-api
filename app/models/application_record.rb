@@ -93,7 +93,7 @@ class ApplicationRecord < ActiveRecord::Base
   end
 
   def self.list(list_type)
-    quotes_list = iex_client.stock_market_list(list_type, displayPercent: true)
+    quotes_list = iex_client.stock_market_list(list_type)
     quotes_list.map do |el|
       company_logo = { 'logo' => "https://storage.googleapis.com/iex/api/logos/#{el['symbol']}.png" }
       company_logo.merge(el)
@@ -102,7 +102,7 @@ class ApplicationRecord < ActiveRecord::Base
 
   def self.iex_client
     IEX::Api::Client.new(
-      publishable_token: ENV['IEX_CLOUD_TOKEN'],
+      publishable_token: ENV['IEX_CLOUD_KEY'],
       secret_token: ENV['IEX_CLOUD_SECRET'],
       endpoint: ENV['IEX_CLOUD_URL']
     )
