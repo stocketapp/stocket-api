@@ -4,7 +4,7 @@ class ApplicationRecord < ActiveRecord::Base
 
   def initialize(attributes = nil)
     @client = IEX::Api::Client.new(
-      publishable_token: ENV['IEX_CLOUD_TOKEN'],
+      publishable_token: ENV['IEX_CLOUD_KEY'],
       secret_token: ENV['IEX_CLOUD_SECRET'],
       endpoint: ENV['IEX_CLOUD_URL']
     )
