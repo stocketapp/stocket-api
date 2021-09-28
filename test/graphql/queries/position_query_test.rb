@@ -41,7 +41,6 @@ module Queries
     end
 
     test 'Calculate the average price of the position' do
-      puts position_query.inspect
       value = position_query['data']['position']['avgPrice']
 
       assert value
