@@ -1,0 +1,12 @@
+business_time:
+  beginning_of_workday: 9:30 am
+  end_of_workday: 4:00 pm
+  holidays:
+    - November 25th, 2021
+    - December 24th, 2021
+  work_week:
+    - mon
+    - tue
+    - wed
+    - thu
+    - fri

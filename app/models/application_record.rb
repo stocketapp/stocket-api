@@ -111,4 +111,9 @@ class ApplicationRecord < ActiveRecord::Base
   def self.logo(symbol)
     iex_client.logo(symbol)
   end
+
+  def self.market_hours?
+    time = Time.now
+    time.workday?.nil? and time.during_business_hours?.nil? ? false : true
+  end
 end

@@ -3,6 +3,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '3.0.0'
 
+gem 'business_time'
 gem 'faraday'
 gem 'firebase_id_token'
 gem 'graphql'

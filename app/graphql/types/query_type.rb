@@ -39,6 +39,7 @@ module Types
       argument :list_type, String, required: false
     end
     field :purchases, [Types::PurchaseType], null: true
+    field :market_hours, Boolean, null: true
 
     def user
       User.find_by! uid: context[:current_user][:uid]
@@ -111,6 +112,10 @@ module Types
 
     def purchases
       Purchase.where user_id: context[:current_user][:id]
+    end
+
+    def market_hours
+      ApplicationRecord.market_hours?
     end
   end
 end
