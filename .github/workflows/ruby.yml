@@ -44,7 +44,7 @@ jobs:
           bundler-cache: true # runs 'bundle install' and caches installed gems automatically
       - name: Run tests
         env:
-          IEX_CLOUD_TOKEN: ${{ secrets.IEX_CLOUD_TOKEN }}
+          IEX_CLOUD_KEY: ${{ secrets.IEX_CLOUD_KEY }}
           IEX_CLOUD_SECRET: ${{ secrets.IEX_CLOUD_SECRET }}
           IEX_CLOUD_URL: ${{ secrets.IEX_CLOUD_URL }}
           RAILS_ENV: test
