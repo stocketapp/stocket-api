@@ -22,6 +22,8 @@ class GraphqlController < ApplicationController
   def get_current_user(token)
     return User.find_by(uid: 'rAOJFXYor4XvCb2As25gkcOd7MD2') if Rails.env.development?
 
+    return nil if params[:operationName] == 'MarketHours'
+
     result = FirebaseIdToken::Signature.verify(token)
     unless result
       raise GraphQL::ExecutionError.new(
