@@ -113,6 +113,7 @@ class ApplicationRecord < ActiveRecord::Base
   end
 
   def self.market_hours?
+    Time.zone = 'Eastern Time (US & Canada)'
     time = Time.now
     time.workday?.nil? and time.during_business_hours?.nil? ? false : true
   end
