@@ -17,6 +17,8 @@ module Types
     field :change_pct, Float, null: true
     field :positions, [Types::PositionType], null: true
     field :value_with_cash, Float, null: false
+    field :all_time_change, Float, null: true
+    field :all_time_change_pct, Float, null: true
 
     def value
       calculate_portfolio_value
@@ -33,6 +35,15 @@ module Types
 
     def change_pct
       print_f value: (change / value) * 100
+    end
+
+    def all_time_change
+      balance_history = BalanceHistory.where(user_id: user_id).min_by(&:created_at)
+      print_f value: diff(value, balance_history.nil? ? 0 : balance_history[:value])
+    end
+
+    def all_time_change_pct
+      print_f value: (all_time_change / value) * 100
     end
 
     def positions
