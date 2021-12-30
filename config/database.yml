@@ -21,3 +21,12 @@ test:
   password: password
   username: postgres
   pool: '<%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>'
+staging:
+  adapter: postgresql
+  database: stocket_api_development
+  encoding: unicode
+  host: localhost
+  password: "<%= ENV['STOCKET_API_DATABASE_PASSWORD'] %>"
+  pool: '<%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>'
+  url: 'postgresql://207.246.91.135:5433'
+  username: postgres
